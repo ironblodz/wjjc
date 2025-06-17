@@ -359,7 +359,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12 text-center">
                     <div class="copyright-area">
-                        <p>Copyright 2024 WJJC PORTUGAL</p>
+                        <p>Copyright 2024 by Konseptus Informática - All rights reserved</p>
                     </div>
                 </div>
             </div>
