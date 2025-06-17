@@ -1,0 +1,75 @@
+<?php
+
+return [
+    'photos' => [
+        'title' => 'Fotos',
+        'add_new' => 'Añadir Nuevo Evento',
+        'edit' => 'Editar Evento',
+        'create' => 'Crear Evento',
+        'delete' => 'Eliminar',
+        'cancel' => 'Cancelar',
+        'update' => 'Actualizar Evento',
+        'upload_gallery' => 'Subir Galería',
+        'success' => [
+            'created' => 'Galería de fotos subida con éxito.',
+            'updated' => 'Galería de fotos actualizada con éxito.',
+            'deleted' => 'Galería de fotos eliminada con éxito.',
+            'image_deleted' => 'Imagen eliminada con éxito.',
+        ],
+        'error' => [
+            'delete_confirm' => '¿Estás seguro de que quieres eliminar esta galería completa?',
+            'image_delete_confirm' => '¿Estás seguro de que quieres eliminar esta imagen?',
+            'upload_required' => 'Por favor, sube al menos una imagen.',
+        ],
+        'fields' => [
+            'category' => 'Categoría',
+            'title' => 'Título',
+            'event_name' => 'Nombre del Evento',
+            'description' => 'Descripción',
+            'image' => 'Imagen',
+            'gallery_images' => 'Imágenes de la Galería',
+            'current_gallery' => 'Galería Actual',
+            'add_new_images' => 'Añadir Nuevas Imágenes a la Galería',
+            'select_category' => 'Selecciona una categoría',
+            'leave_empty' => 'Deja vacío para mantener la imagen actual',
+            'multiple_images' => 'Puedes seleccionar múltiples imágenes para añadir a la galería',
+        ],
+        'table' => [
+            'id' => 'ID',
+            'cover_image' => 'Imagen de Portada',
+            'title' => 'Título',
+            'event' => 'Evento',
+            'category' => 'Categoría',
+            'gallery' => 'Galería',
+            'actions' => 'Acciones',
+            'images_count' => ':count imágenes',
+        ],
+    ],
+    'categories' => [
+        'title' => 'Categorías',
+        'add_new' => 'Añadir Nueva Categoría',
+        'edit' => 'Editar Categoría',
+        'create' => 'Crear Categoría',
+        'delete' => 'Eliminar',
+        'cancel' => 'Cancelar',
+        'update' => 'Actualizar Categoría',
+        'success' => [
+            'created' => 'Categoría creada con éxito.',
+            'updated' => 'Categoría actualizada con éxito.',
+            'deleted' => 'Categoría eliminada con éxito.',
+        ],
+        'error' => [
+            'delete_confirm' => '¿Estás seguro de que quieres eliminar esta categoría?',
+        ],
+        'fields' => [
+            'name' => 'Nombre',
+            'description' => 'Descripción',
+        ],
+        'table' => [
+            'id' => 'ID',
+            'name' => 'Nombre',
+            'description' => 'Descripción',
+            'actions' => 'Acciones',
+        ],
+    ],
+]; 

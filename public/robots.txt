@@ -1,0 +1,15 @@
+# Bloquear todos os rastreadores de acessar certas áreas
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+Disallow: /user/
+Disallow: /cart/
+Disallow: /checkout/
+
+# Permitir todos os rastreadores a indexar outras áreas do site
+User-agent: *
+Allow: /
+
+# Permitir o acesso ao sitemap
+Sitemap:  https://wjjc.pt/sitemap.xml

@@ -1,0 +1,75 @@
+<?php
+
+return [
+    'photos' => [
+        'title' => 'Photos',
+        'add_new' => 'Add New Event',
+        'edit' => 'Edit Event',
+        'create' => 'Create Event',
+        'delete' => 'Delete',
+        'cancel' => 'Cancel',
+        'update' => 'Update Event',
+        'upload_gallery' => 'Upload Gallery',
+        'success' => [
+            'created' => 'Photo gallery uploaded successfully.',
+            'updated' => 'Photo gallery updated successfully.',
+            'deleted' => 'Photo gallery deleted successfully.',
+            'image_deleted' => 'Image deleted successfully.',
+        ],
+        'error' => [
+            'delete_confirm' => 'Are you sure you want to delete this entire gallery?',
+            'image_delete_confirm' => 'Are you sure you want to delete this image?',
+            'upload_required' => 'Please upload at least one image.',
+        ],
+        'fields' => [
+            'category' => 'Category',
+            'title' => 'Title',
+            'event_name' => 'Event Name',
+            'description' => 'Description',
+            'image' => 'Image',
+            'gallery_images' => 'Gallery Images',
+            'current_gallery' => 'Current Gallery',
+            'add_new_images' => 'Add New Images to Gallery',
+            'select_category' => 'Select a category',
+            'leave_empty' => 'Leave empty to keep current image',
+            'multiple_images' => 'You can select multiple images to add to the gallery',
+        ],
+        'table' => [
+            'id' => 'ID',
+            'cover_image' => 'Cover Image',
+            'title' => 'Title',
+            'event' => 'Event',
+            'category' => 'Category',
+            'gallery' => 'Gallery',
+            'actions' => 'Actions',
+            'images_count' => ':count images',
+        ],
+    ],
+    'categories' => [
+        'title' => 'Categories',
+        'add_new' => 'Add New Category',
+        'edit' => 'Edit Category',
+        'create' => 'Create Category',
+        'delete' => 'Delete',
+        'cancel' => 'Cancel',
+        'update' => 'Update Category',
+        'success' => [
+            'created' => 'Category created successfully.',
+            'updated' => 'Category updated successfully.',
+            'deleted' => 'Category deleted successfully.',
+        ],
+        'error' => [
+            'delete_confirm' => 'Are you sure you want to delete this category?',
+        ],
+        'fields' => [
+            'name' => 'Name',
+            'description' => 'Description',
+        ],
+        'table' => [
+            'id' => 'ID',
+            'name' => 'Name',
+            'description' => 'Description',
+            'actions' => 'Actions',
+        ],
+    ],
+]; 
