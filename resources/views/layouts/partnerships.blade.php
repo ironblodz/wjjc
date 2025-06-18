@@ -31,6 +31,7 @@
                             <h3>
                                 <a href="https://nerdycorexp.com" target="_blank" class="animated-link">Nerdy Core XP</a>
                             </h3>
+                            <span style="font-size: 0.9em; display: block; color: #888;">Agência / Produtora de Eventos</span>
                             <p><a href="https://nerdycorexp.com" target="_blank"><i class="fas fa-globe"></i> Visite o nosso website</a></p>
                         </div>
                     </div>

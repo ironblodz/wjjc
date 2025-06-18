@@ -163,9 +163,12 @@
                                                 height="150" alt="logo">
                                         </a></li>
                                         <li class="menu_has_children">
-                                            <a href="{{ route('wjjcpt.show') }}">WJJC Portugal</a>
+                                            <a href="#">WJJC Portugal</a>
                                             <ul class="sub-menu">
                                                 <li class="menu_has_children">
+                                                    <li><a
+                                                        href="{{ route('wjjcpt.show') }}">WJJC Portugal</a>
+                                                </li>
                                                 <li><a
                                                         href="{{ route('association.show') }}">{{ __('messages.navbar.association') }}</a>
                                                 </li>
