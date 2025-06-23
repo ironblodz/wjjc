@@ -1,0 +1,48 @@
+.logo-diretor {
+    height: 200px;
+    position: relative;
+    bottom: 42px;
+}
+
+.soque-diretor {
+    position: relative;
+    left: 35%;
+}
+
+/* Adiciona a animação de rotação */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Aplica a animação à imagem do preloader */
+.loader-thumb img {
+    animation: spin 2s linear infinite;
+}
+
+.video-section2 {
+    padding: 50px 0;
+    position: relative;
+    overflow: visible;
+}
+
+.video-section2 .section-logo-text {
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.video-section2 .section-logo-text span {
+    font-size: 130px;
+    font-family: "Kanit", sans-serif;
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+    font-style: italic;
+}

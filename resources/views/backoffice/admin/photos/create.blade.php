@@ -8,7 +8,8 @@
     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
         <div class="flex items-center">
             <a href="{{ route('backoffice.admin.photos.index') }}"
-               class="mr-6 p-3 text-gray-400 hover:text-gray-600 transition-all duration-300 hover:bg-gray-100 rounded-xl">
+               class="mr-6 p-3 text-gray-400 hover:text-gray-600 transition-all duration-300 hover:bg-gray-100 rounded-xl"
+               aria-label="Voltar para lista de eventos">
                 <i class="fas fa-arrow-left text-2xl"></i>
             </a>
             <div>
@@ -30,7 +31,7 @@
             </h3>
         </div>
 
-        <form action="{{ route('backoffice.admin.photos.store') }}" method="POST" enctype="multipart/form-data" class="p-8" id="photo-form">
+        <form action="{{ route('backoffice.admin.photos.store') }}" method="POST" enctype="multipart/form-data" class="p-8" id="photo-form" novalidate>
             @csrf
 
             <div class="space-y-8">
@@ -38,11 +39,11 @@
                 <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
                     <label for="category_id" class="block text-lg font-semibold text-gray-900 mb-4">
                         <i class="fas fa-tag mr-3 text-blue-500"></i>
-                        Categoria
+                        Categoria <span class="text-red-500" aria-label="Campo obrigatório">*</span>
                     </label>
                     <select name="category_id" id="category_id"
                             class="w-full px-6 py-4 text-lg border-2 {{ $errors->has('category_id') ? 'border-red-500' : 'border-gray-300' }} rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 shadow-sm"
-                            required aria-invalid="{{ $errors->has('category_id') ? 'true' : 'false' }}" aria-describedby="category-error">
+                            required aria-invalid="{{ $errors->has('category_id') ? 'true' : 'false' }}" aria-describedby="category-error category-help">
                         <option value="">Selecione uma categoria</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -50,8 +51,12 @@
                             </option>
                         @endforeach
                     </select>
+                    <p class="mt-3 text-sm text-gray-600 flex items-center" id="category-help">
+                        <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+                        Escolha a categoria que melhor representa este evento.
+                    </p>
                     @if($errors->has('category_id'))
-                        <p class="mt-3 text-sm text-red-600 flex items-center" id="category-error">
+                        <p class="mt-3 text-sm text-red-600 flex items-center" id="category-error" role="alert">
                             <i class="fas fa-exclamation-circle mr-2"></i>
                             {{ $errors->first('category_id') }}
                         </p>
@@ -62,7 +67,7 @@
                 <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100">
                     <label for="event_name" class="block text-lg font-semibold text-gray-900 mb-4">
                         <i class="fas fa-calendar mr-3 text-green-500"></i>
-                        Nome do Evento
+                        Nome do Evento <span class="text-red-500" aria-label="Campo obrigatório">*</span>
                     </label>
                     <input type="text"
                            name="event_name"
@@ -70,12 +75,49 @@
                            value="{{ old('event_name') }}"
                            class="w-full px-6 py-4 text-lg border-2 {{ $errors->has('event_name') ? 'border-red-500' : 'border-gray-300' }} rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-300 shadow-sm"
                            placeholder="Ex: Casamento João e Maria, Aniversário 50 anos..."
-                           required aria-invalid="{{ $errors->has('event_name') ? 'true' : 'false' }}" aria-describedby="event-name-error"
+                           required
+                           minlength="3"
+                           maxlength="255"
+                           aria-invalid="{{ $errors->has('event_name') ? 'true' : 'false' }}"
+                           aria-describedby="event-name-error event-name-help"
                            autofocus>
+                    <p class="mt-3 text-sm text-gray-600 flex items-center" id="event-name-help">
+                        <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>
+                        Use um nome descritivo que identifique claramente o evento (mínimo 3 caracteres).
+                    </p>
                     @if($errors->has('event_name'))
-                        <p class="mt-3 text-sm text-red-600 flex items-center" id="event-name-error">
+                        <p class="mt-3 text-sm text-red-600 flex items-center" id="event-name-error" role="alert">
                             <i class="fas fa-exclamation-circle mr-2"></i>
                             {{ $errors->first('event_name') }}
+                        </p>
+                    @endif
+                </div>
+
+                <!-- Title Field -->
+                <div class="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-6 border border-teal-100">
+                    <label for="title" class="block text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-heading mr-3 text-teal-500"></i>
+                        Título do Evento <span class="text-red-500" aria-label="Campo obrigatório">*</span>
+                    </label>
+                    <input type="text"
+                           name="title"
+                           id="title"
+                           value="{{ old('title') }}"
+                           class="w-full px-6 py-4 text-lg border-2 {{ $errors->has('title') ? 'border-red-500' : 'border-gray-300' }} rounded-xl focus:ring-4 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300 shadow-sm"
+                           placeholder="Ex: Casamento João e Maria, Aniversário 50 anos..."
+                           required
+                           minlength="3"
+                           maxlength="255"
+                           aria-invalid="{{ $errors->has('title') ? 'true' : 'false' }}"
+                           aria-describedby="title-error title-help">
+                    <p class="mt-3 text-sm text-gray-600 flex items-center" id="title-help">
+                        <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>
+                        Título que será exibido na galeria e listagens (mínimo 3 caracteres).
+                    </p>
+                    @if($errors->has('title'))
+                        <p class="mt-3 text-sm text-red-600 flex items-center" id="title-error" role="alert">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            {{ $errors->first('title') }}
                         </p>
                     @endif
                 </div>
@@ -90,13 +132,19 @@
                               name="description"
                               id="description"
                               rows="4"
-                              placeholder="Descreva o evento..." aria-invalid="{{ $errors->has('description') ? 'true' : 'false' }}" aria-describedby="description-error">{{ old('description') }}</textarea>
-                    <p class="mt-3 text-sm text-gray-600 flex items-center">
-                        <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>
-                        Uma descrição detalhada ajuda a contextualizar melhor o evento.
-                    </p>
+                              maxlength="1000"
+                              placeholder="Descreva o evento..."
+                              aria-invalid="{{ $errors->has('description') ? 'true' : 'false' }}"
+                              aria-describedby="description-error description-help">{{ old('description') }}</textarea>
+                    <div class="flex justify-between items-center mt-3">
+                        <p class="text-sm text-gray-600 flex items-center" id="description-help">
+                            <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>
+                            Uma descrição detalhada ajuda a contextualizar melhor o evento.
+                        </p>
+                        <span class="text-xs text-gray-500" id="description-counter">0/1000</span>
+                    </div>
                     @if($errors->has('description'))
-                        <p class="mt-3 text-sm text-red-600 flex items-center" id="description-error">
+                        <p class="mt-3 text-sm text-red-600 flex items-center" id="description-error" role="alert">
                             <i class="fas fa-exclamation-circle mr-2"></i>
                             {{ $errors->first('description') }}
                         </p>
@@ -107,11 +155,11 @@
                 <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-100">
                     <label class="block text-lg font-semibold text-gray-900 mb-4">
                         <i class="fas fa-image mr-3 text-purple-500"></i>
-                        Imagem Principal
+                        Imagem Principal <span class="text-red-500" aria-label="Campo obrigatório">*</span>
                     </label>
-                    <div class="border-2 border-dashed {{ $errors->has('image') ? 'border-red-500' : 'border-gray-300' }} rounded-xl p-8 text-center hover:border-gray-400 transition-all duration-300 bg-white">
-                        <input type="file" name="image" id="image" accept="image/*" class="hidden" required>
-                        <label for="image" class="cursor-pointer">
+                    <div class="border-2 border-dashed {{ $errors->has('images.*') ? 'border-red-500' : 'border-gray-300' }} rounded-xl p-8 text-center hover:border-gray-400 transition-all duration-300 bg-white">
+                        <input type="file" name="images[]" id="main_image" accept="image/*" class="hidden" required aria-describedby="main-image-error main-image-help">
+                        <label for="main_image" class="cursor-pointer">
                             <div class="space-y-4">
                                 <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto">
                                     <i class="fas fa-cloud-upload-alt text-white text-2xl"></i>
@@ -123,16 +171,38 @@
                             </div>
                         </label>
                     </div>
-                    <p class="mt-3 text-sm text-gray-600 flex items-center">
+                    <p class="mt-3 text-sm text-gray-600 flex items-center" id="main-image-help">
                         <i class="fas fa-info-circle mr-2 text-blue-500"></i>
-                        Esta será a imagem principal do evento, exibida em destaque.
+                        Esta será a imagem principal do evento, exibida em destaque. Formatos aceitos: PNG, JPG, JPEG. Tamanho máximo: 5MB.
                     </p>
-                    @if($errors->has('image'))
-                        <p class="mt-3 text-sm text-red-600 flex items-center">
+                    @if($errors->has('images.*'))
+                        <p class="mt-3 text-sm text-red-600 flex items-center" id="main-image-error" role="alert">
                             <i class="fas fa-exclamation-circle mr-2"></i>
-                            {{ $errors->first('image') }}
+                            {{ $errors->first('images.*') }}
                         </p>
                     @endif
+                </div>
+
+                <!-- Main Image Preview -->
+                <div id="main-image-preview" class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-100 hidden">
+                    <label class="block text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-eye mr-3 text-purple-500"></i>
+                        Preview da Imagem Principal
+                    </label>
+                    <div class="flex items-center justify-center">
+                        <div class="relative">
+                            <img id="main-preview-img" src="" alt="Preview da imagem principal"
+                                 class="max-w-full h-64 object-cover rounded-xl border-2 border-purple-200 shadow-lg">
+                            <button type="button" onclick="removeMainImage()"
+                                    class="absolute -top-2 -right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-all duration-300">
+                                <i class="fas fa-times text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 text-center">
+                        <i class="fas fa-check-circle mr-2 text-green-500"></i>
+                        Imagem principal selecionada com sucesso!
+                    </p>
                 </div>
 
                 <!-- Gallery Images Upload -->
@@ -142,7 +212,7 @@
                         Galeria de Fotos (Opcional)
                     </label>
                     <div class="border-2 border-dashed {{ $errors->has('images.*') ? 'border-red-500' : 'border-gray-300' }} rounded-xl p-8 text-center hover:border-gray-400 transition-all duration-300 bg-white">
-                        <input type="file" name="images[]" id="images" accept="image/*" class="hidden" multiple>
+                        <input type="file" name="images[]" id="images" accept="image/*" class="hidden" multiple aria-describedby="images-error images-help">
                         <label for="images" class="cursor-pointer">
                             <div class="space-y-4">
                                 <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-full flex items-center justify-center mx-auto">
@@ -155,16 +225,38 @@
                             </div>
                         </label>
                     </div>
-                    <p class="mt-3 text-sm text-gray-600 flex items-center">
+                    <p class="mt-3 text-sm text-gray-600 flex items-center" id="images-help">
                         <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>
-                        Você pode selecionar várias imagens para criar uma galeria completa do evento.
+                        Você pode selecionar várias imagens para criar uma galeria completa do evento. As imagens serão marcadas como "Nova" por 7 dias.
                     </p>
                     @if($errors->has('images.*'))
-                        <p class="mt-3 text-sm text-red-600 flex items-center">
+                        <p class="mt-3 text-sm text-red-600 flex items-center" id="images-error" role="alert">
                             <i class="fas fa-exclamation-circle mr-2"></i>
                             {{ $errors->first('images.*') }}
                         </p>
                     @endif
+                </div>
+
+                <!-- Gallery Images Preview -->
+                <div id="gallery-preview" class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-2xl p-6 border border-indigo-100 hidden">
+                    <label class="block text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-images mr-3 text-indigo-500"></i>
+                        Preview da Galeria (<span id="gallery-count">0</span> fotos)
+                    </label>
+                    <div id="gallery-preview-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        <!-- Preview images will be inserted here -->
+                    </div>
+                    <div class="flex justify-between items-center mt-4">
+                        <p class="text-sm text-gray-600">
+                            <i class="fas fa-check-circle mr-2 text-green-500"></i>
+                            <span id="gallery-status">Imagens selecionadas com sucesso!</span>
+                        </p>
+                        <button type="button" onclick="clearGallery()"
+                                class="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-all duration-300 text-sm font-semibold">
+                            <i class="fas fa-trash mr-2"></i>
+                            Limpar Galeria
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Tips Section -->
@@ -239,6 +331,141 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Character counter for description
+    const descriptionTextarea = document.getElementById('description');
+    const descriptionCounter = document.getElementById('description-counter');
+
+    if (descriptionTextarea && descriptionCounter) {
+        function updateCounter() {
+            const length = descriptionTextarea.value.length;
+            descriptionCounter.textContent = `${length}/1000`;
+
+            if (length > 900) {
+                descriptionCounter.classList.add('text-red-500');
+            } else {
+                descriptionCounter.classList.remove('text-red-500');
+            }
+        }
+
+        descriptionTextarea.addEventListener('input', updateCounter);
+        updateCounter(); // Initial count
+    }
+
+    // File validation and preview
+    const imageInput = document.getElementById('main_image');
+    const galleryInput = document.getElementById('images');
+    const mainPreview = document.getElementById('main-image-preview');
+    const mainPreviewImg = document.getElementById('main-preview-img');
+    const galleryPreview = document.getElementById('gallery-preview');
+    const galleryPreviewGrid = document.getElementById('gallery-preview-grid');
+    const galleryCount = document.getElementById('gallery-count');
+    const galleryStatus = document.getElementById('gallery-status');
+
+    function validateFile(file, maxSize = 5 * 1024 * 1024) {
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+
+        if (!allowedTypes.includes(file.type)) {
+            return 'Formato de arquivo não suportado. Use apenas PNG, JPG, JPEG, GIF ou WEBP.';
+        }
+
+        if (file.size > maxSize) {
+            return 'Arquivo muito grande. Tamanho máximo: 5MB.';
+        }
+
+        return null;
+    }
+
+    function createImagePreview(file, index = null) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewDiv = document.createElement('div');
+                previewDiv.className = 'relative group';
+                previewDiv.dataset.index = index;
+
+                previewDiv.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview ${index !== null ? index + 1 : ''}"
+                         class="w-full h-24 object-cover rounded-lg border-2 border-gray-200 hover:border-blue-300 transition-all duration-300">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                        <span class="text-white text-xs font-semibold">${index !== null ? `Foto ${index + 1}` : 'Principal'}</span>
+                    </div>
+                    ${index !== null ? `
+                    <button type="button" onclick="removeGalleryImage(${index})"
+                            class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 hover:bg-red-600 hover:scale-100">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                    ` : ''}
+                `;
+
+                resolve(previewDiv);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Main image preview
+    if (imageInput) {
+        imageInput.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const error = validateFile(file);
+                if (error) {
+                    showNotification(error, 'error');
+                    this.value = '';
+                    mainPreview.classList.add('hidden');
+                } else {
+                    const previewDiv = await createImagePreview(file);
+                    mainPreviewImg.src = previewDiv.querySelector('img').src;
+                    mainPreview.classList.remove('hidden');
+                    mainPreview.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    showNotification('Imagem principal selecionada com sucesso!', 'success');
+                }
+            }
+        });
+    }
+
+    // Gallery images preview
+    if (galleryInput) {
+        galleryInput.addEventListener('change', async function(e) {
+            const files = Array.from(e.target.files);
+            let hasError = false;
+            let validFiles = 0;
+            const validFilesArray = [];
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const error = validateFile(file);
+                if (error) {
+                    showNotification(`Erro no arquivo "${file.name}": ${error}`, 'error');
+                    hasError = true;
+                } else {
+                    validFiles++;
+                    validFilesArray.push({ file, index: i });
+                }
+            }
+
+            if (hasError) {
+                this.value = '';
+                galleryPreview.classList.add('hidden');
+            } else if (validFiles > 0) {
+                // Clear existing previews
+                galleryPreviewGrid.innerHTML = '';
+
+                // Create previews for all valid files
+                for (const { file, index } of validFilesArray) {
+                    const previewDiv = await createImagePreview(file, index);
+                    galleryPreviewGrid.appendChild(previewDiv);
+                }
+
+                galleryCount.textContent = validFiles;
+                galleryStatus.textContent = `${validFiles} imagem(ns) selecionada(s) com sucesso!`;
+                galleryPreview.classList.remove('hidden');
+                galleryPreview.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                showNotification(`${validFiles} imagem(ns) selecionada(s) com sucesso!`, 'success');
+            }
+        });
+    }
+
     // Focus on first error field
     const errorField = document.querySelector('.border-red-500');
     if (errorField) {
@@ -246,7 +473,7 @@ document.addEventListener('DOMContentLoaded', function() {
         errorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Form submission with loading
+    // Form submission with loading and validation
     const form = document.getElementById('photo-form');
     const submitBtn = document.getElementById('submit-btn');
     const btnText = document.getElementById('btn-text');
@@ -254,6 +481,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (form && submitBtn && btnText && btnLoading) {
         form.addEventListener('submit', function(e) {
+            // Basic validation
+            const categorySelect = document.getElementById('category_id');
+            const eventNameInput = document.getElementById('event_name');
+            const titleInput = document.getElementById('title');
+            const imageInput = document.getElementById('main_image');
+
+            let isValid = true;
+
+            if (!categorySelect.value) {
+                showFieldError(categorySelect, 'Por favor, selecione uma categoria.');
+                isValid = false;
+            }
+
+            if (!eventNameInput.value.trim()) {
+                showFieldError(eventNameInput, 'Por favor, insira o nome do evento.');
+                isValid = false;
+            } else if (eventNameInput.value.trim().length < 3) {
+                showFieldError(eventNameInput, 'O nome do evento deve ter pelo menos 3 caracteres.');
+                isValid = false;
+            }
+
+            if (!titleInput.value.trim()) {
+                showFieldError(titleInput, 'Por favor, insira o título do evento.');
+                isValid = false;
+            } else if (titleInput.value.trim().length < 3) {
+                showFieldError(titleInput, 'O título do evento deve ter pelo menos 3 caracteres.');
+                isValid = false;
+            }
+
+            if (!imageInput.files || imageInput.files.length === 0) {
+                showFieldError(imageInput, 'Por favor, selecione uma imagem principal.');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                return false;
+            }
+
             submitBtn.disabled = true;
             btnText.classList.add('hidden');
             btnLoading.classList.remove('hidden');
@@ -274,5 +540,123 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Global functions for image management
+function removeMainImage() {
+    const imageInput = document.getElementById('main_image');
+    const mainPreview = document.getElementById('main-image-preview');
+
+    if (imageInput) {
+        imageInput.value = '';
+    }
+
+    if (mainPreview) {
+        mainPreview.classList.add('hidden');
+    }
+
+    showNotification('Imagem principal removida', 'info');
+}
+
+function removeGalleryImage(index) {
+    const galleryInput = document.getElementById('images');
+    const galleryPreviewGrid = document.getElementById('gallery-preview-grid');
+    const galleryCount = document.getElementById('gallery-count');
+    const galleryStatus = document.getElementById('gallery-status');
+
+    // Remove the preview element
+    const previewElement = galleryPreviewGrid.querySelector(`[data-index="${index}"]`);
+    if (previewElement) {
+        previewElement.remove();
+    }
+
+    // Update file input (this is complex with multiple files, so we'll just clear and ask user to reselect)
+    if (galleryInput) {
+        galleryInput.value = '';
+    }
+
+    // Update counters
+    const remainingImages = galleryPreviewGrid.children.length;
+    if (remainingImages === 0) {
+        document.getElementById('gallery-preview').classList.add('hidden');
+        showNotification('Galeria limpa', 'info');
+    } else {
+        galleryCount.textContent = remainingImages;
+        galleryStatus.textContent = `${remainingImages} imagem(ns) restante(s)`;
+        showNotification('Imagem removida da galeria. Selecione novamente as imagens desejadas.', 'info');
+    }
+}
+
+function clearGallery() {
+    const galleryInput = document.getElementById('images');
+    const galleryPreview = document.getElementById('gallery-preview');
+
+    if (galleryInput) {
+        galleryInput.value = '';
+    }
+
+    if (galleryPreview) {
+        galleryPreview.classList.add('hidden');
+    }
+
+    showNotification('Galeria limpa', 'info');
+}
+
+function showFieldError(field, message) {
+    // Remove existing error
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+
+    // Add error styling
+    field.classList.remove('border-gray-300');
+    field.classList.add('border-red-500');
+
+    // Create error message
+    const errorDiv = document.createElement('p');
+    errorDiv.className = 'mt-3 text-sm text-red-600 flex items-center field-error';
+    errorDiv.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i>${message}`;
+    errorDiv.setAttribute('role', 'alert');
+
+    field.parentNode.appendChild(errorDiv);
+
+    // Focus on field
+    field.focus();
+    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full`;
+
+    const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+    const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+
+    notification.innerHTML = `
+        <div class="flex items-center ${bgColor} text-white p-4 rounded-lg">
+            <i class="fas ${icon} mr-3"></i>
+            <span>${message}</span>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(notification);
+
+    // Animate in
+    setTimeout(() => {
+        notification.classList.remove('translate-x-full');
+    }, 100);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        notification.classList.add('translate-x-full');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 5000);
+}
 </script>
 @endsection

@@ -3,56 +3,59 @@
 @section('title', trans('commands.title'))
 
 @section('content')
-<div class="max-w-7xl mx-auto">
+<div class="w-full space-y-8">
     <!-- Header -->
-    <div class="mb-6">
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900">{{ trans('commands.title') }}</h2>
-                <p class="mt-1 text-sm text-gray-600">{{ trans('commands.subtitle') }}</p>
+                <h2 class="text-3xl font-bold text-gray-900 mb-2">
+                    <i class="fas fa-terminal mr-3 text-blue-500"></i>
+                    {{ trans('commands.title') }}
+                </h2>
+                <p class="text-lg text-gray-600">{{ trans('commands.subtitle') }}</p>
             </div>
-            <button onclick="clearHistory()" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200">
+            <button onclick="clearHistory()" class="px-6 py-3 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition-all duration-300 font-semibold">
                 <i class="fas fa-trash mr-2"></i>
                 {{ trans('commands.clear_history') }}
             </button>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
         <!-- Available Commands -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">
-                    <i class="fas fa-terminal mr-2 text-blue-500"></i>
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+            <div class="px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100">
+                <h3 class="text-2xl font-bold text-gray-900">
+                    <i class="fas fa-terminal mr-3 text-blue-500"></i>
                     {{ trans('commands.available_commands') }}
                 </h3>
             </div>
-            <div class="p-6">
-                <div class="space-y-4">
+            <div class="p-8">
+                <div class="space-y-6">
                     @foreach($commands as $commandKey => $command)
-                        <div class="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors duration-200">
+                        <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-gray-300 transition-all duration-300">
                             <div class="flex items-start justify-between">
                                 <div class="flex-1">
-                                    <div class="flex items-center mb-2">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-{{ $command['color'] }}-100 text-{{ $command['color'] }}-800 mr-3">
-                                            <i class="{{ $command['icon'] }} mr-1"></i>
+                                    <div class="flex items-center mb-3">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-{{ $command['color'] }}-100 text-{{ $command['color'] }}-800 mr-4">
+                                            <i class="{{ $command['icon'] }} mr-2"></i>
                                             {{ $command['name'] }}
                                         </span>
-                                        <code class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-700">{{ $commandKey }}</code>
+                                        <code class="text-sm bg-gray-100 px-3 py-1 rounded-lg text-gray-700 font-mono">{{ $commandKey }}</code>
                                     </div>
-                                    <p class="text-sm text-gray-600 mb-3">{{ $command['description'] }}</p>
+                                    <p class="text-base text-gray-600 mb-4">{{ $command['description'] }}</p>
 
                                     @if(!empty($command['options']))
-                                        <div class="mb-3">
-                                            <p class="text-xs font-medium text-gray-700 mb-2">{{ trans('commands.options_available') }}</p>
-                                            <div class="space-y-1">
+                                        <div class="mb-4">
+                                            <p class="text-sm font-semibold text-gray-700 mb-3">{{ trans('commands.options_available') }}</p>
+                                            <div class="space-y-2">
                                                 @foreach($command['options'] as $option => $description)
                                                     <div class="flex items-center">
                                                         <input type="checkbox" id="{{ $commandKey }}_{{ $option }}"
-                                                               class="mr-2 text-blue-600 rounded focus:ring-blue-500">
-                                                        <label for="{{ $commandKey }}_{{ $option }}" class="text-xs text-gray-600">
-                                                            <code class="bg-gray-100 px-1 rounded">{{ $option }}</code>
-                                                            <span class="ml-1">{{ $description }}</span>
+                                                               class="mr-3 text-blue-600 rounded focus:ring-blue-500">
+                                                        <label for="{{ $commandKey }}_{{ $option }}" class="text-sm text-gray-600">
+                                                            <code class="bg-gray-100 px-2 py-1 rounded text-gray-700">{{ $option }}</code>
+                                                            <span class="ml-2">{{ $description }}</span>
                                                         </label>
                                                     </div>
                                                 @endforeach
@@ -60,15 +63,15 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="flex space-x-2">
+                                <div class="flex space-x-3">
                                     <button onclick="showHelp('{{ $commandKey }}')"
-                                            class="p-2 text-gray-400 hover:text-blue-600 transition-colors duration-200"
+                                            class="p-3 text-gray-400 hover:text-blue-600 transition-all duration-300 rounded-lg hover:bg-blue-50"
                                             title="{{ trans('commands.help') }}">
-                                        <i class="fas fa-question-circle"></i>
+                                        <i class="fas fa-question-circle text-lg"></i>
                                     </button>
                                     <button onclick="executeCommand('{{ $commandKey }}')"
-                                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm">
-                                        <i class="fas fa-play mr-1"></i>
+                                            class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-300 font-semibold">
+                                        <i class="fas fa-play mr-2"></i>
                                         {{ trans('commands.execute') }}
                                     </button>
                                 </div>
@@ -80,15 +83,15 @@
         </div>
 
         <!-- Command Output -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">
-                    <i class="fas fa-terminal mr-2 text-green-500"></i>
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+            <div class="px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100">
+                <h3 class="text-2xl font-bold text-gray-900">
+                    <i class="fas fa-terminal mr-3 text-green-500"></i>
                     {{ trans('commands.command_output') }}
                 </h3>
             </div>
-            <div class="p-6">
-                <div id="command-output" class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm h-96 overflow-y-auto">
+            <div class="p-8">
+                <div id="command-output" class="bg-gray-900 text-green-400 p-6 rounded-xl font-mono text-base h-96 overflow-y-auto border border-gray-700">
                     <div class="text-gray-500">
                         <i class="fas fa-info-circle mr-2"></i>
                         {{ trans('commands.select_command') }}
@@ -99,45 +102,45 @@
     </div>
 
     <!-- Recent Executions -->
-    <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-200">
-        <div class="px-6 py-4 border-b border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-900">
-                <i class="fas fa-history mr-2 text-purple-500"></i>
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+        <div class="px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100">
+            <h3 class="text-2xl font-bold text-gray-900">
+                <i class="fas fa-history mr-3 text-purple-500"></i>
                 {{ trans('commands.recent_executions') }}
             </h3>
         </div>
-        <div class="p-6">
+        <div class="p-8">
             @if(!empty($recentExecutions))
-                <div class="space-y-4">
+                <div class="space-y-6">
                     @foreach($recentExecutions as $execution)
-                        <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="border-2 border-gray-200 rounded-xl p-6 hover:border-gray-300 transition-all duration-300">
                             <div class="flex items-start justify-between">
                                 <div class="flex-1">
-                                    <div class="flex items-center mb-2">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    <div class="flex items-center mb-3">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold
                                                    {{ $execution['exit_code'] === 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                            <i class="{{ $execution['exit_code'] === 0 ? 'fas fa-check' : 'fas fa-times' }} mr-1"></i>
+                                            <i class="{{ $execution['exit_code'] === 0 ? 'fas fa-check' : 'fas fa-times' }} mr-2"></i>
                                             {{ $execution['exit_code'] === 0 ? trans('commands.status.success') : trans('commands.status.error') }}
                                         </span>
-                                        <span class="ml-3 text-sm text-gray-500">
+                                        <span class="ml-4 text-sm text-gray-500 font-medium">
                                             {{ \Carbon\Carbon::parse($execution['executed_at'])->format('d/m/Y H:i:s') }}
                                         </span>
-                                        <span class="ml-3 text-sm text-gray-400">{{ $execution['user'] }}</span>
+                                        <span class="ml-4 text-sm text-gray-400">{{ $execution['user'] }}</span>
                                     </div>
-                                    <div class="mb-2">
-                                        <code class="text-sm bg-gray-100 px-2 py-1 rounded">{{ $execution['command'] }}</code>
+                                    <div class="mb-3">
+                                        <code class="text-base bg-gray-100 px-3 py-2 rounded-lg font-mono">{{ $execution['command'] }}</code>
                                         @if(!empty($execution['options']))
-                                            <span class="text-sm text-gray-600 ml-2">
+                                            <span class="text-sm text-gray-600 ml-3">
                                                 {{ trans('commands.with_options') }} {{ implode(', ', array_keys($execution['options'])) }}
                                             </span>
                                         @endif
                                     </div>
                                     @if($execution['command_info'])
-                                        <p class="text-sm text-gray-600">{{ $execution['command_info']['name'] }}</p>
+                                        <p class="text-base text-gray-600">{{ $execution['command_info']['name'] }}</p>
                                     @endif
                                 </div>
                                 <button onclick="showExecutionOutput('{{ json_encode($execution) }}')"
-                                        class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors duration-200 text-sm">
+                                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-300 font-semibold">
                                     {{ trans('commands.view_output') }}
                                 </button>
                             </div>
@@ -145,9 +148,9 @@
                     @endforeach
                 </div>
             @else
-                <div class="text-center py-8">
-                    <i class="fas fa-history text-4xl text-gray-400 mb-4"></i>
-                    <p class="text-gray-500">{{ trans('commands.no_recent_executions') }}</p>
+                <div class="text-center py-12">
+                    <i class="fas fa-history text-6xl text-gray-400 mb-6"></i>
+                    <p class="text-xl text-gray-500">{{ trans('commands.no_recent_executions') }}</p>
                 </div>
             @endif
         </div>
@@ -157,15 +160,15 @@
 <!-- Modal para saída detalhada -->
 <div id="output-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
     <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[80vh] overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                <h3 class="text-lg font-semibold text-gray-900">{{ trans('commands.command_output') }}</h3>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+        <div class="bg-white rounded-2xl max-w-6xl w-full max-h-[80vh] overflow-hidden shadow-2xl">
+            <div class="px-8 py-6 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-gray-50 to-gray-100">
+                <h3 class="text-2xl font-bold text-gray-900">{{ trans('commands.command_output') }}</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition-all duration-300 p-2 rounded-lg hover:bg-gray-200">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <div class="p-6">
-                <div id="modal-output" class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm max-h-96 overflow-y-auto">
+            <div class="p-8">
+                <div id="modal-output" class="bg-gray-900 text-green-400 p-6 rounded-xl font-mono text-base max-h-96 overflow-y-auto border border-gray-700">
                 </div>
             </div>
         </div>
@@ -189,8 +192,8 @@
         const output = document.getElementById('command-output');
         output.innerHTML = `
             <div class="flex items-center text-yellow-400">
-                <i class="fas fa-spinner fa-spin mr-2"></i>
-                {{ trans('commands.executing') }}
+                <i class="fas fa-spinner fa-spin mr-3 text-xl"></i>
+                <span class="text-lg">{{ trans('commands.executing') }}</span>
             </div>
         `;
 
@@ -211,25 +214,21 @@
             if (data.success) {
                 output.innerHTML = `
                     <div class="text-green-400">
-                        <div class="mb-2">
+                        <div class="mb-4 p-3 bg-green-900 bg-opacity-50 rounded-lg border border-green-700">
                             <i class="fas fa-check-circle mr-2"></i>
-                            ${data.message}
+                            <span class="font-semibold">Comando executado com sucesso!</span>
                         </div>
-                        <div class="border-t border-gray-700 pt-2 mt-2">
-                            <pre class="whitespace-pre-wrap">${data.output}</pre>
-                        </div>
+                        <pre class="whitespace-pre-wrap">${data.output}</pre>
                     </div>
                 `;
             } else {
                 output.innerHTML = `
                     <div class="text-red-400">
-                        <div class="mb-2">
-                            <i class="fas fa-times-circle mr-2"></i>
-                            ${data.message}
+                        <div class="mb-4 p-3 bg-red-900 bg-opacity-50 rounded-lg border border-red-700">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            <span class="font-semibold">Erro ao executar comando</span>
                         </div>
-                        <div class="border-t border-gray-700 pt-2 mt-2">
-                            <pre class="whitespace-pre-wrap">${data.output}</pre>
-                        </div>
+                        <pre class="whitespace-pre-wrap">${data.message}</pre>
                     </div>
                 `;
             }
@@ -237,66 +236,39 @@
         .catch(error => {
             output.innerHTML = `
                 <div class="text-red-400">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                    {{ trans('commands.communication_error') }}: ${error.message}
+                    <div class="mb-4 p-3 bg-red-900 bg-opacity-50 rounded-lg border border-red-700">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <span class="font-semibold">Erro de conexão</span>
+                    </div>
+                    <pre class="whitespace-pre-wrap">${error.message}</pre>
                 </div>
             `;
         });
     }
 
     function showHelp(command) {
-        fetch(`{{ route('backoffice.admin.commands.help', '') }}/${command}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const output = document.getElementById('command-output');
-                output.innerHTML = `
-                    <div class="text-blue-400">
-                        <div class="mb-2">
-                            <i class="fas fa-question-circle mr-2"></i>
-                            {{ trans('commands.help') }} para: ${data.command_info.name}
-                        </div>
-                        <div class="border-t border-gray-700 pt-2 mt-2">
-                            <pre class="whitespace-pre-wrap">${data.help}</pre>
-                        </div>
-                    </div>
-                `;
-            } else {
-                alert('{{ trans('commands.help_error') }}: ' + data.message);
-            }
-        })
-        .catch(error => {
-            alert('{{ trans('commands.communication_error') }}: ' + error.message);
-        });
+        fetch('{{ route("backoffice.admin.commands.help", "") }}/' + command)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showModal(data.help);
+                } else {
+                    showModal('Erro ao carregar ajuda: ' + data.message);
+                }
+            })
+            .catch(error => {
+                showModal('Erro de conexão: ' + error.message);
+            });
     }
 
-    function showExecutionOutput(executionJson) {
-        const execution = JSON.parse(executionJson);
-        const modal = document.getElementById('output-modal');
-        const modalOutput = document.getElementById('modal-output');
+    function showExecutionOutput(execution) {
+        const exec = JSON.parse(execution);
+        showModal(exec.output || 'Nenhuma saída disponível');
+    }
 
-        modalOutput.innerHTML = `
-            <div class="mb-4">
-                <div class="flex items-center mb-2">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                               ${execution.exit_code === 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-                        <i class="${execution.exit_code === 0 ? 'fas fa-check' : 'fas fa-times'} mr-1"></i>
-                        ${execution.exit_code === 0 ? '{{ trans('commands.status.success') }}' : '{{ trans('commands.status.error') }}'}
-                    </span>
-                    <span class="ml-3 text-sm text-gray-500">
-                        ${new Date(execution.executed_at).toLocaleString('pt-BR')}
-                    </span>
-                </div>
-                <div class="mb-2">
-                    <code class="text-sm bg-gray-100 px-2 py-1 rounded text-gray-700">${execution.command}</code>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 pt-2">
-                <pre class="whitespace-pre-wrap">${execution.output}</pre>
-            </div>
-        `;
-
-        modal.classList.remove('hidden');
+    function showModal(content) {
+        document.getElementById('modal-output').innerHTML = `<pre class="whitespace-pre-wrap">${content}</pre>`;
+        document.getElementById('output-modal').classList.remove('hidden');
     }
 
     function closeModal() {
@@ -304,7 +276,7 @@
     }
 
     function clearHistory() {
-        if (confirm('{{ trans('commands.clear_history_confirm') }}')) {
+        if (confirm('{{ trans("commands.confirm_clear_history") }}')) {
             fetch('{{ route("backoffice.admin.commands.clear-history") }}', {
                 method: 'POST',
                 headers: {
@@ -317,18 +289,18 @@
                 if (data.success) {
                     location.reload();
                 } else {
-                    alert('{{ trans('commands.help_error') }}: ' + data.message);
+                    alert('Erro ao limpar histórico: ' + data.message);
                 }
             })
             .catch(error => {
-                alert('{{ trans('commands.communication_error') }}: ' + error.message);
+                alert('Erro de conexão: ' + error.message);
             });
         }
     }
 
-    // Fechar modal ao clicar fora
-    document.getElementById('output-modal').addEventListener('click', function(e) {
-        if (e.target === this) {
+    // Fechar modal com ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
             closeModal();
         }
     });

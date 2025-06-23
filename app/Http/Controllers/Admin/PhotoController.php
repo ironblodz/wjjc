@@ -369,6 +369,15 @@ class PhotoController extends Controller
                 'photo_id' => $photoId
             ]);
 
+            // Verificar se é uma requisição AJAX
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Imagem excluída com sucesso!',
+                    'remaining_count' => $photo->images()->count()
+                ]);
+            }
+
             return redirect()->back()
                 ->with('success', 'Imagem excluída com sucesso!');
 
@@ -377,6 +386,14 @@ class PhotoController extends Controller
                 'image_id' => $imageId,
                 'error' => $e->getMessage()
             ]);
+
+            // Verificar se é uma requisição AJAX
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Erro ao excluir a imagem: ' . $e->getMessage()
+                ], 500);
+            }
 
             return redirect()->back()
                 ->with('error', 'Erro ao excluir a imagem: ' . $e->getMessage());
