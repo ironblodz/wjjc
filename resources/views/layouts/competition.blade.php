@@ -21,7 +21,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">WJJC</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('messages.events.event') }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ __('messages.competition.competition') }}</li>
             </ol>
         </nav>
     </div>
@@ -53,22 +53,22 @@
                 <div class="col-xl-4 col-lg-8 col-md-6 col-sm-8 text-center">
                     <div class="section-header" data-aos="fade-up" data-aos-duration="1200">
                         <h2 class="section-title">
-                            {{ __('messages.events.gallery') }} <span> {{ __('messages.events.event') }}</span></h2>
+                            {{ __('messages.competition.gallery') }} <span> {{ __('messages.competition.competition') }}</span></h2>
                     </div>
                 </div>
             </div>
             <div class="gallery-filter-wrapper">
                 <div class="button-group filter-btn-group">
-                    <button class="active" data-filter="*">{{ __('messages.events.all') }}</button>
+                    <button class="active" data-filter="*">{{ __('messages.competition.all') }}</button>
                     @php
-                        $uniqueEvents = $photos->where('category.name', 'Competições')->pluck('event_name')->unique();
+                        $uniqueEvents = $photos->pluck('event_name')->unique();
                     @endphp
                     @foreach ($uniqueEvents as $eventName)
                         <button data-filter=".event-{{ Str::slug($eventName) }}">{{ $eventName }}</button>
                     @endforeach
                 </div>
                 <div class="grid">
-                    @foreach ($photos->where('category.name', 'Competições') as $photo)
+                    @foreach ($photos as $photo)
                         @foreach ($photo->images as $image)
                             <div class="grid-item event-{{ Str::slug($photo->event_name) }} trainer">
                                 <div class="gallery-item">

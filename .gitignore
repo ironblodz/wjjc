@@ -7,6 +7,8 @@
 .env
 .env.backup
 .env.production
+.env.local
+.env.staging
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -16,3 +18,28 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Arquivos de backup
+*.sql
+backup_*.sql
+
+# Logs
+*.log
+storage/logs/*.log
+
+# Cache
+bootstrap/cache/*
+!bootstrap/cache/.gitkeep
+
+# Arquivos temporários
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Arquivos de deploy
+deploy.log
+deploy-*.log
+
+# Arquivos de configuração local
+config/local.php

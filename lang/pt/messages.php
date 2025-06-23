@@ -103,8 +103,8 @@ return [
                                 o dragão.',
         'george' => 'George, que estava passando, perguntou à filha o que estava acontecendo. Ela contou a ele
                                 sobre o dragão e implorou que ele fosse embora antes que ele aparecesse e o matasse também.
-                                O cavaleiro disse à princesa: “Linda filha, não duvide, eu te ajudarei. Bom cavaleiro, siga
-                                seu caminho e não fique comigo, porque você não pode me livrar”.',
+                                O cavaleiro disse à princesa: "Linda filha, não duvide, eu te ajudarei. Bom cavaleiro, siga
+                                seu caminho e não fique comigo, porque você não pode me livrar" .',
         'speak' => 'Enquanto eles conversavam, o dragão apareceu e avançou sobre eles. O dragão era enorme e seu
                                 rugido parecia um trovão, mas São Jorge não teve medo. Ele montou seu cavalo, sacou a espada
                                 e cavalgou com força contra o dragão. Mas o dragão atacou-o, feriu-o e feriu-o e atirou-o ao
@@ -135,7 +135,7 @@ return [
                                 caminhada
                                 marcial em 1997 na ​modalidade do Kick Boxing com o Mestre Nuno Ferreira no KickGym de
                                 Coimbra, em 2001
-                                teve o seu primeiro contacto com esta arte conhecida como arte gentil, o ​“Ju-Jitsu” através
+                                teve o seu primeiro contacto com esta arte conhecida como arte gentil, o ​"Ju-Jitsu" através
                                 da
                                 Associação Portuguesa de Nihon Ju-Jitsu e Defesa Pessoal pela mão do Mestre Hélder Nunes
                                 onde
@@ -213,7 +213,7 @@ return [
                                 Portugal, estaremos cá para não só para te transmitir o Kishidō Ju-Jitsu,mas também para te
                                 apoiar e para aprender contigo. Se procuras uma organização profissional de Ju-Jitsu a World
                                 Ju-Jitsu Corporation é a indicada para ti!',
-        'training' => 'Vem treinar connosco... o Kishidō Ju-Jitsu espera por ti! OSS “',
+        'training' => 'Vem treinar connosco... o Kishidō Ju-Jitsu espera por ti! OSS "',
         'tradicional' => 'Raízes tradicionais do Ju-Jitsu Inglês',
         'studing' => 'O estudo aprofundado de técnicas de defesa contra facas e armas',
         'tecnics' => 'Técnicas de defesa contra múltiplos ataques e grappling',
@@ -230,7 +230,7 @@ return [
     'founder' => [
         'founder' => 'O Fundador',
         'jujitsu' => 'Shodai Soke Adriano Busà 9º Dan é o fundador e diretor técnico internacional da World
-                                Ju-Jitsu Corporation. O estilo ​de Ju-Jitsu que ele codificou é o “Kishidō” - 騎士 道 (O
+                                Ju-Jitsu Corporation. O estilo ​de Ju-Jitsu que ele codificou é o "Kishidō" - 騎士 道 (O
                                 caminho do Cavaleiro).
                                 Mais tarde fundou a ANS S.r.l (Agência Nacional de Segurança), uma empresa dedicada à
                                 formação profissional para polícias e militares.
@@ -243,7 +243,7 @@ return [
         'filosofi' => 'A sua visão filosófica levou-o a organizar a World Ju-Jitsu Corporation de tal forma que a
                                 todos é dada a oportunidade ​de crescer e melhorar, ao mesmo tempo que ajuda os outros a
                                 fazer o mesmo, uma vez que seguem os mesmos ​princípios. A sua filosofia está contida no
-                                famoso lema dos três mosqueteiros de Alexandre Dumas: “Um por todos e todos por Um!”
+                                famoso lema dos três mosqueteiros de Alexandre Dumas: "Um por todos e todos por Um!"
                                 convencido da importância de forjar um grupo e fazer com que todos os membros do grupo se
                                 sintam ​orgulhosos.',
         'soke' => 'Sobre o Soke',
@@ -254,7 +254,7 @@ return [
                     profunda baseada no respeito mútuo e é bom a dar conselhos e ideias ​tanto marciais como pessoais.
 ',
         'tecnics' => 'As competências técnicas do Soke Adriano Busà são muito apreciadas em todo o mundo e permitiram-lhe
-                    reinterpretar o ​Ju-Jitsu tradicional e transformar em “Kishidō” o estilo da WJJC, um estilo
+                    reinterpretar o ​Ju-Jitsu tradicional e transformar em "Kishidō" o estilo da WJJC, um estilo
                     simultaneamente moderno e eficaz, baseado ​na precisão e na rapidez, embora permanecendo firmemente
                     enraizado nos valores tradicionais do Budo.
 ',
@@ -278,6 +278,12 @@ return [
         'all' => 'Todos',
         'master' => 'Master Class Itália 2024',
         'seminar' => 'Estágio Interno Ju-Jitsu Penela Julho 2024',
+    ],
+
+    'competition' => [
+        'competition' => 'Competição',
+        'gallery' => 'Galeria de',
+        'all' => 'Todos',
     ],
 
     'workout' => [
@@ -338,13 +344,13 @@ return [
         'geral' => 'Condicionamento Físico Geral',
         'strong' => 'A prática regular melhora a força, a flexibilidade, a resistência cardiovascular e a coordenação motora',
         'weigh' => 'Perda de Peso',
-        'help' => 'As sessões de treino intensas ajudam a queimar calorias e a reduzir a gordura corporal. ',
+        'help' => 'As sessões de treino intensas ajudam a queimar calorias e a reduzir a gordura corporal. ',
         'value' => 'intensificação de valores
                                                                 éticos e morais',
         'pride' => 'Princípios como honra, coragem, solidariedade e justiça fazem
                                                                 parte dos ensinamentos, ajudando a formar o caráter dos
                                                                 praticantes, principalmente no caso de crianças,
-                                                                adolescentes e jovens',
+                                                                adolescentes e jovens',
         'autocontrol' => 'Autoconfiança e Autocontrole',
         'ju' => 'A prática regular ajuda a aumentar a autoconfiança, pois os
                                                                 praticantes aprendem a lidar com desafios e adversidades.
