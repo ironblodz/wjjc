@@ -203,6 +203,28 @@
                     @endif
                 </div>
 
+                <!-- Main Image Preview -->
+                <div id="main-image-preview" class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-100 hidden">
+                    <label class="block text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-eye mr-3 text-purple-500"></i>
+                        Preview da Nova Imagem Principal
+                    </label>
+                    <div class="flex items-center justify-center">
+                        <div class="relative">
+                            <img id="main-preview-img" src="" alt="Preview da nova imagem principal"
+                                 class="max-w-full h-64 object-cover rounded-xl border-2 border-purple-200 shadow-lg">
+                            <button type="button" onclick="removeMainImage()"
+                                    class="absolute -top-2 -right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-all duration-300">
+                                <i class="fas fa-times text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 text-center">
+                        <i class="fas fa-check-circle mr-2 text-green-500"></i>
+                        Nova imagem principal selecionada com sucesso!
+                    </p>
+                </div>
+
                 <!-- Current Gallery -->
                 @if($photo->images->count() > 0)
                 <div class="bg-gradient-to-r from-gray-50 to-green-50 rounded-2xl p-6 border border-gray-200">
@@ -288,6 +310,28 @@
                             {{ $errors->first('gallery_images.*') }}
                         </p>
                     @endif
+                </div>
+
+                <!-- Gallery Images Preview -->
+                <div id="gallery-preview" class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-2xl p-6 border border-indigo-100 hidden">
+                    <label class="block text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-images mr-3 text-indigo-500"></i>
+                        Preview das Novas Fotos (<span id="gallery-count">0</span> fotos)
+                    </label>
+                    <div id="gallery-preview-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        <!-- Preview images will be inserted here -->
+                    </div>
+                    <div class="flex justify-between items-center mt-4">
+                        <p class="text-sm text-gray-600">
+                            <i class="fas fa-check-circle mr-2 text-green-500"></i>
+                            <span id="gallery-status">Imagens selecionadas com sucesso!</span>
+                        </p>
+                        <button type="button" onclick="clearGallery()"
+                                class="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-all duration-300 text-sm font-semibold">
+                            <i class="fas fa-trash mr-2"></i>
+                            Limpar Seleção
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Event Stats -->
@@ -392,15 +436,21 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCounter(); // Initial count
     }
 
-    // File validation
+    // File validation and preview
     const imageInput = document.getElementById('image');
     const galleryInput = document.getElementById('gallery_images');
+    const mainPreview = document.getElementById('main-image-preview');
+    const mainPreviewImg = document.getElementById('main-preview-img');
+    const galleryPreview = document.getElementById('gallery-preview');
+    const galleryPreviewGrid = document.getElementById('gallery-preview-grid');
+    const galleryCount = document.getElementById('gallery-count');
+    const galleryStatus = document.getElementById('gallery-status');
 
     function validateFile(file, maxSize = 5 * 1024 * 1024) {
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
 
         if (!allowedTypes.includes(file.type)) {
-            return 'Formato de arquivo não suportado. Use apenas PNG, JPG ou JPEG.';
+            return 'Formato de arquivo não suportado. Use apenas PNG, JPG, JPEG, GIF ou WEBP.';
         }
 
         if (file.size > maxSize) {
@@ -410,34 +460,93 @@ document.addEventListener('DOMContentLoaded', function() {
         return null;
     }
 
+    function createImagePreview(file, index = null) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewDiv = document.createElement('div');
+                previewDiv.className = 'relative group';
+                previewDiv.dataset.index = index;
+
+                previewDiv.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview ${index !== null ? index + 1 : ''}"
+                         class="w-full h-24 object-cover rounded-lg border-2 border-gray-200 hover:border-blue-300 transition-all duration-300">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                        <span class="text-white text-xs font-semibold">${index !== null ? `Foto ${index + 1}` : 'Principal'}</span>
+                    </div>
+                    ${index !== null ? `
+                    <button type="button" onclick="removeGalleryImage(${index})"
+                            class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 hover:bg-red-600 hover:scale-100">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                    ` : ''}
+                `;
+
+                resolve(previewDiv);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Main image preview
     if (imageInput) {
-        imageInput.addEventListener('change', function(e) {
+        imageInput.addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (file) {
                 const error = validateFile(file);
                 if (error) {
-                    alert(error);
+                    showNotification(error, 'error');
                     this.value = '';
+                    mainPreview.classList.add('hidden');
+                } else {
+                    const previewDiv = await createImagePreview(file);
+                    mainPreviewImg.src = previewDiv.querySelector('img').src;
+                    mainPreview.classList.remove('hidden');
+                    mainPreview.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    showNotification('Nova imagem principal selecionada com sucesso!', 'success');
                 }
             }
         });
     }
 
+    // Gallery images preview
     if (galleryInput) {
-        galleryInput.addEventListener('change', function(e) {
+        galleryInput.addEventListener('change', async function(e) {
             const files = Array.from(e.target.files);
             let hasError = false;
+            let validFiles = 0;
+            const validFilesArray = [];
 
-            files.forEach(file => {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
                 const error = validateFile(file);
                 if (error) {
-                    alert(`Erro no arquivo "${file.name}": ${error}`);
+                    showNotification(`Erro no arquivo "${file.name}": ${error}`, 'error');
                     hasError = true;
+                } else {
+                    validFiles++;
+                    validFilesArray.push({ file, index: i });
                 }
-            });
+            }
 
             if (hasError) {
                 this.value = '';
+                galleryPreview.classList.add('hidden');
+            } else if (validFiles > 0) {
+                // Clear existing previews
+                galleryPreviewGrid.innerHTML = '';
+
+                // Create previews for all valid files
+                for (const { file, index } of validFilesArray) {
+                    const previewDiv = await createImagePreview(file, index);
+                    galleryPreviewGrid.appendChild(previewDiv);
+                }
+
+                galleryCount.textContent = validFiles;
+                galleryStatus.textContent = `${validFiles} nova(s) imagem(ns) selecionada(s) com sucesso!`;
+                galleryPreview.classList.remove('hidden');
+                galleryPreview.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                showNotification(`${validFiles} nova(s) imagem(ns) selecionada(s) com sucesso!`, 'success');
             }
         });
     }
@@ -460,6 +569,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Basic validation
             const categorySelect = document.getElementById('category_id');
             const eventNameInput = document.getElementById('event_name');
+            const titleInput = document.getElementById('title');
 
             let isValid = true;
 
@@ -473,6 +583,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             } else if (eventNameInput.value.trim().length < 3) {
                 showFieldError(eventNameInput, 'O nome do evento deve ter pelo menos 3 caracteres.');
+                isValid = false;
+            }
+
+            if (!titleInput.value.trim()) {
+                showFieldError(titleInput, 'Por favor, insira o título do evento.');
+                isValid = false;
+            } else if (titleInput.value.trim().length < 3) {
+                showFieldError(titleInput, 'O título do evento deve ter pelo menos 3 caracteres.');
                 isValid = false;
             }
 
@@ -501,6 +619,66 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Global functions for image management
+function removeMainImage() {
+    const imageInput = document.getElementById('image');
+    const mainPreview = document.getElementById('main-image-preview');
+
+    if (imageInput) {
+        imageInput.value = '';
+    }
+
+    if (mainPreview) {
+        mainPreview.classList.add('hidden');
+    }
+
+    showNotification('Nova imagem principal removida', 'info');
+}
+
+function removeGalleryImage(index) {
+    const galleryInput = document.getElementById('gallery_images');
+    const galleryPreviewGrid = document.getElementById('gallery-preview-grid');
+    const galleryCount = document.getElementById('gallery-count');
+    const galleryStatus = document.getElementById('gallery-status');
+
+    // Remove the preview element
+    const previewElement = galleryPreviewGrid.querySelector(`[data-index="${index}"]`);
+    if (previewElement) {
+        previewElement.remove();
+    }
+
+    // Update file input (this is complex with multiple files, so we'll just clear and ask user to reselect)
+    if (galleryInput) {
+        galleryInput.value = '';
+    }
+
+    // Update counters
+    const remainingImages = galleryPreviewGrid.children.length;
+    if (remainingImages === 0) {
+        document.getElementById('gallery-preview').classList.add('hidden');
+        showNotification('Seleção de novas imagens limpa', 'info');
+    } else {
+        galleryCount.textContent = remainingImages;
+        galleryStatus.textContent = `${remainingImages} nova(s) imagem(ns) restante(s)`;
+        showNotification('Imagem removida da seleção. Selecione novamente as imagens desejadas.', 'info');
+    }
+}
+
+function clearGallery() {
+    const galleryInput = document.getElementById('gallery_images');
+    const galleryPreview = document.getElementById('gallery-preview');
+
+    if (galleryInput) {
+        galleryInput.value = '';
+    }
+
+    if (galleryPreview) {
+        galleryPreview.classList.add('hidden');
+    }
+
+    showNotification('Seleção de novas imagens limpa', 'info');
+}
 
 // Gallery management functions
 let deleteMode = false;
@@ -660,17 +838,5 @@ function showNotification(message, type = 'info') {
         }, 300);
     }, 5000);
 }
-
-// Keyboard navigation for modal
-document.addEventListener('keydown', function(e) {
-    const modal = document.getElementById('delete-modal');
-    if (!modal.classList.contains('hidden')) {
-        if (e.key === 'Escape') {
-            closeDeleteModal();
-        } else if (e.key === 'Enter') {
-            confirmDeleteImage();
-        }
-    }
-});
 </script>
 @endsection
