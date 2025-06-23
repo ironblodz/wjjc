@@ -3,7 +3,7 @@
 @section('title', 'Nova Categoria')
 
 @section('content')
-<div class="w-full max-w-4xl mx-auto space-y-8">
+<div class="w-full space-y-8">
     <!-- Header -->
     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
         <div class="flex items-center">
@@ -44,16 +44,16 @@
                            name="name"
                            id="name"
                            value="{{ old('name') }}"
-                           class="w-full px-6 py-4 text-lg border-2 @error('name') border-red-500 @else border-gray-300 @enderror rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 shadow-sm"
+                           class="w-full px-6 py-4 text-lg border-2 @if($errors->has('name')) border-red-500 @else border-gray-300 @endif rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 shadow-sm"
                            placeholder="Ex: Casamentos, Aniversários, Corporativo..."
-                           required aria-invalid="@error('name')true@enderror" aria-describedby="name-error"
+                           required aria-invalid="@if($errors->has('name'))true@endif" aria-describedby="name-error"
                            autofocus>
-                    @error('name')
+                    @if($errors->has('name'))
                         <p class="mt-3 text-sm text-red-600 flex items-center" id="name-error">
                             <i class="fas fa-exclamation-circle mr-2"></i>
-                            {{ $message }}
+                            {{ $errors->first('name') }}
                         </p>
-                    @enderror
+                    @endif
                 </div>
 
                 <!-- Slug Field -->
@@ -66,19 +66,19 @@
                            name="slug"
                            id="slug"
                            value="{{ old('slug') }}"
-                           class="w-full px-6 py-4 text-lg border-2 @error('slug') border-red-500 @else border-gray-300 @enderror rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-300 shadow-sm"
+                           class="w-full px-6 py-4 text-lg border-2 @if($errors->has('slug')) border-red-500 @else border-gray-300 @endif rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-300 shadow-sm"
                            placeholder="Ex: casamentos, aniversarios, corporativo..."
-                           required aria-invalid="@error('slug')true@enderror" aria-describedby="slug-error">
+                           required aria-invalid="@if($errors->has('slug'))true@endif" aria-describedby="slug-error">
                     <p class="mt-3 text-sm text-gray-600 flex items-center">
                         <i class="fas fa-info-circle mr-2 text-blue-500"></i>
                         O slug será usado na URL. Use apenas letras minúsculas, números e hífens.
                     </p>
-                    @error('slug')
+                    @if($errors->has('slug'))
                         <p class="mt-3 text-sm text-red-600 flex items-center" id="slug-error">
                             <i class="fas fa-exclamation-circle mr-2"></i>
-                            {{ $message }}
+                            {{ $errors->first('slug') }}
                         </p>
-                    @enderror
+                    @endif
                 </div>
 
                 <!-- Description Field -->
@@ -168,40 +168,49 @@
     </div>
 </div>
 
-@push('scripts')
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     // Auto-generate slug from name
-    document.getElementById('name').addEventListener('input', function() {
-        const name = this.value;
-        const slug = name.toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-            .replace(/\s+/g, '-') // Replace spaces with hyphens
-            .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
-            .trim('-'); // Remove leading/trailing hyphens
-        document.getElementById('slug').value = slug;
-    });
+    const nameInput = document.getElementById('name');
+    const slugInput = document.getElementById('slug');
 
-    // Foco automático no primeiro erro
-    window.addEventListener('DOMContentLoaded', function() {
-        const errorField = document.querySelector('.border-red-500');
-        if (errorField) {
-            errorField.focus();
-            errorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    });
+    if (nameInput && slugInput) {
+        nameInput.addEventListener('input', function() {
+            const name = this.value;
+            const slug = name.toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            slugInput.value = slug;
+        });
+    }
 
-    // Botão com loading ao enviar
-    document.getElementById('category-form').addEventListener('submit', function(e) {
-        const btn = document.getElementById('submit-btn');
-        btn.disabled = true;
-        document.getElementById('btn-text').classList.add('hidden');
-        document.getElementById('btn-loading').classList.remove('hidden');
-    });
+    // Focus on first error field
+    const errorField = document.querySelector('.border-red-500');
+    if (errorField) {
+        errorField.focus();
+        errorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 
-    // Animações suaves
-    document.addEventListener('DOMContentLoaded', function() {
-        const formSections = document.querySelectorAll('.bg-gradient-to-r');
-        formSections.forEach((section, index) => {
+    // Form submission with loading
+    const form = document.getElementById('category-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+    const btnLoading = document.getElementById('btn-loading');
+
+    if (form && submitBtn && btnText && btnLoading) {
+        form.addEventListener('submit', function(e) {
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoading.classList.remove('hidden');
+        });
+    }
+
+    // Smooth animations
+    const formSections = document.querySelectorAll('.bg-gradient-to-r');
+    formSections.forEach((section, index) => {
+        if (section) {
             section.style.opacity = '0';
             section.style.transform = 'translateY(20px)';
             setTimeout(() => {
@@ -209,8 +218,8 @@
                 section.style.opacity = '1';
                 section.style.transform = 'translateY(0)';
             }, index * 200);
-        });
+        }
     });
+});
 </script>
-@endpush
 @endsection

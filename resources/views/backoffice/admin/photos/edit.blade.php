@@ -3,7 +3,7 @@
 @section('title', 'Editar Evento')
 
 @section('content')
-<div class="w-full max-w-6xl mx-auto space-y-8">
+<div class="w-full max-w-7xl mx-auto space-y-8">
     <!-- Header -->
     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
         <div class="flex items-center">
@@ -13,10 +13,10 @@
             </a>
             <div>
                 <h2 class="text-3xl font-bold text-gray-900 mb-2">
-                    <i class="fas fa-edit mr-3 text-blue-500"></i>
+                    <i class="fas fa-edit mr-3 text-purple-500"></i>
                     Editar Evento
                 </h2>
-                <p class="text-lg text-gray-600">Atualize as informações do evento "{{ $photo->title }}"</p>
+                <p class="text-lg text-gray-600">Atualize as informações do evento "{{ $photo->event_name }}"</p>
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
         <div class="px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100">
             <h3 class="text-2xl font-bold text-gray-900">
-                <i class="fas fa-cog mr-3 text-blue-500"></i>
+                <i class="fas fa-camera mr-3 text-blue-500"></i>
                 Informações do Evento
             </h3>
         </div>
@@ -38,45 +38,27 @@
                 <!-- Left Column -->
                 <div class="space-y-8">
                     <!-- Category Field -->
-                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-100">
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
                         <label for="category_id" class="block text-lg font-semibold text-gray-900 mb-4">
-                            <i class="fas fa-tags mr-3 text-purple-500"></i>
+                            <i class="fas fa-tag mr-3 text-blue-500"></i>
                             Categoria
                         </label>
-                        <select class="w-full px-6 py-4 text-lg border-2 @error('category_id') border-red-500 @else border-gray-300 @enderror rounded-xl focus:ring-4 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 shadow-sm"
-                                id="category_id" name="category_id" required aria-invalid="@error('category_id')true@enderror" aria-describedby="category-error">
+                        <select name="category_id" id="category_id"
+                                class="w-full px-6 py-4 text-lg border-2 @if($errors->has('category_id')) border-red-500 @else border-gray-300 @endif rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 shadow-sm"
+                                required aria-invalid="@if($errors->has('category_id'))true@endif" aria-describedby="category-error">
                             <option value="">Selecione uma categoria</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id', $photo->category_id) == $category->id ? 'selected' : '' }}>
+                                <option value="{{ $category->id }}" @if(old('category_id', $photo->category_id) == $category->id) selected @endif>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('category_id')
+                        @if($errors->has('category_id'))
                             <p class="mt-3 text-sm text-red-600 flex items-center" id="category-error">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                {{ $message }}
+                                {{ $errors->first('category_id') }}
                             </p>
-                        @enderror
-                    </div>
-
-                    <!-- Title Field -->
-                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
-                        <label for="title" class="block text-lg font-semibold text-gray-900 mb-4">
-                            <i class="fas fa-heading mr-3 text-blue-500"></i>
-                            Título do Evento
-                        </label>
-                        <input type="text"
-                               class="w-full px-6 py-4 text-lg border-2 @error('title') border-red-500 @else border-gray-300 @enderror rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 shadow-sm"
-                               id="title" name="title" value="{{ old('title', $photo->title) }}"
-                               placeholder="Ex: Casamento João e Maria"
-                               required aria-invalid="@error('title')true@enderror" aria-describedby="title-error">
-                        @error('title')
-                            <p class="mt-3 text-sm text-red-600 flex items-center" id="title-error">
-                                <i class="fas fa-exclamation-circle mr-2"></i>
-                                {{ $message }}
-                            </p>
-                        @enderror
+                        @endif
                     </div>
 
                     <!-- Event Name Field -->
@@ -86,16 +68,18 @@
                             Nome do Evento
                         </label>
                         <input type="text"
-                               class="w-full px-6 py-4 text-lg border-2 @error('event_name') border-red-500 @else border-gray-300 @enderror rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-300 shadow-sm"
-                               id="event_name" name="event_name" value="{{ old('event_name', $photo->event_name) }}"
-                               placeholder="Ex: Casamento"
-                               required aria-invalid="@error('event_name')true@enderror" aria-describedby="event-name-error">
-                        @error('event_name')
+                               name="event_name"
+                               id="event_name"
+                               value="{{ old('event_name', $photo->event_name) }}"
+                               class="w-full px-6 py-4 text-lg border-2 @if($errors->has('event_name')) border-red-500 @else border-gray-300 @endif rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-300 shadow-sm"
+                               placeholder="Ex: Casamento João e Maria, Aniversário 30 anos..."
+                               required aria-invalid="@if($errors->has('event_name'))true@endif" aria-describedby="event-name-error">
+                        @if($errors->has('event_name'))
                             <p class="mt-3 text-sm text-red-600 flex items-center" id="event-name-error">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                {{ $message }}
+                                {{ $errors->first('event_name') }}
                             </p>
-                        @enderror
+                        @endif
                     </div>
 
                     <!-- Description Field -->
@@ -104,15 +88,15 @@
                             <i class="fas fa-align-left mr-3 text-orange-500"></i>
                             Descrição
                         </label>
-                        <textarea class="w-full px-6 py-4 text-lg border-2 @error('description') border-red-500 @else border-gray-300 @enderror rounded-xl focus:ring-4 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 shadow-sm resize-none"
+                        <textarea class="w-full px-6 py-4 text-lg border-2 @if($errors->has('description')) border-red-500 @else border-gray-300 @endif rounded-xl focus:ring-4 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 shadow-sm resize-none"
                                   id="description" name="description" rows="4"
-                                  placeholder="Descreva o evento..." aria-invalid="@error('description')true@enderror" aria-describedby="description-error">{{ old('description', $photo->description) }}</textarea>
-                        @error('description')
+                                  placeholder="Descreva o evento..." aria-invalid="@if($errors->has('description'))true@endif" aria-describedby="description-error">{{ old('description', $photo->description) }}</textarea>
+                        @if($errors->has('description'))
                             <p class="mt-3 text-sm text-red-600 flex items-center" id="description-error">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                {{ $message }}
+                                {{ $errors->first('description') }}
                             </p>
-                        @enderror
+                        @endif
                     </div>
                 </div>
 
@@ -124,7 +108,7 @@
                             <i class="fas fa-image mr-3 text-red-500"></i>
                             Imagem de Capa
                         </label>
-                        <div class="border-2 border-dashed @error('image') border-red-500 @else border-gray-300 @enderror rounded-xl p-8 text-center hover:border-gray-400 transition-all duration-300 bg-white">
+                        <div class="border-2 border-dashed @if($errors->has('image')) border-red-500 @else border-gray-300 @endif rounded-xl p-8 text-center hover:border-gray-400 transition-all duration-300 bg-white">
                             <input type="file" class="hidden" id="image" name="image" accept="image/*">
                             <label for="image" class="cursor-pointer">
                                 <i class="fas fa-cloud-upload-alt text-5xl text-gray-400 mb-4"></i>
@@ -138,12 +122,12 @@
                                 </div>
                             @endif
                         </div>
-                        @error('image')
+                        @if($errors->has('image'))
                             <p class="mt-3 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                {{ $message }}
+                                {{ $errors->first('image') }}
                             </p>
-                        @enderror
+                        @endif
                     </div>
 
                     <!-- Gallery Images Field -->
@@ -152,7 +136,7 @@
                             <i class="fas fa-images mr-3 text-indigo-500"></i>
                             Galeria de Fotos
                         </label>
-                        <div class="border-2 border-dashed @error('gallery_images.*') border-red-500 @else border-gray-300 @enderror rounded-xl p-8 text-center hover:border-gray-400 transition-all duration-300 bg-white">
+                        <div class="border-2 border-dashed @if($errors->has('gallery_images.*')) border-red-500 @else border-gray-300 @endif rounded-xl p-8 text-center hover:border-gray-400 transition-all duration-300 bg-white">
                             <input type="file" class="hidden" id="gallery_images" name="gallery_images[]" accept="image/*" multiple>
                             <label for="gallery_images" class="cursor-pointer">
                                 <i class="fas fa-images text-5xl text-gray-400 mb-4"></i>
@@ -164,12 +148,12 @@
                             <i class="fas fa-info-circle mr-2 text-blue-500"></i>
                             As imagens já existentes estão listadas abaixo. As novas serão adicionadas.
                         </p>
-                        @error('gallery_images.*')
+                        @if($errors->has('gallery_images.*'))
                             <p class="mt-3 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                {{ $message }}
+                                {{ $errors->first('gallery_images.*') }}
                             </p>
-                        @enderror
+                        @endif
                     </div>
 
                     <!-- Existing Gallery -->
@@ -217,40 +201,33 @@
     </div>
 </div>
 
-@push('scripts')
 <script>
-    // Auto-generate slug from name
-    document.getElementById('name').addEventListener('input', function() {
-        const name = this.value;
-        const slug = name.toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-            .replace(/\s+/g, '-') // Replace spaces with hyphens
-            .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
-            .trim('-'); // Remove leading/trailing hyphens
-        document.getElementById('slug').value = slug;
-    });
+document.addEventListener('DOMContentLoaded', function() {
+    // Focus on first error field
+    const errorField = document.querySelector('.border-red-500');
+    if (errorField) {
+        errorField.focus();
+        errorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 
-    // Foco automático no primeiro erro
-    window.addEventListener('DOMContentLoaded', function() {
-        const errorField = document.querySelector('.border-red-500');
-        if (errorField) {
-            errorField.focus();
-            errorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    });
+    // Form submission with loading
+    const form = document.getElementById('photo-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+    const btnLoading = document.getElementById('btn-loading');
 
-    // Botão com loading ao enviar
-    document.getElementById('photo-form').addEventListener('submit', function(e) {
-        const btn = document.getElementById('submit-btn');
-        btn.disabled = true;
-        document.getElementById('btn-text').classList.add('hidden');
-        document.getElementById('btn-loading').classList.remove('hidden');
-    });
+    if (form && submitBtn && btnText && btnLoading) {
+        form.addEventListener('submit', function(e) {
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoading.classList.remove('hidden');
+        });
+    }
 
-    // Animações suaves
-    document.addEventListener('DOMContentLoaded', function() {
-        const formSections = document.querySelectorAll('.bg-gradient-to-r');
-        formSections.forEach((section, index) => {
+    // Smooth animations
+    const formSections = document.querySelectorAll('.bg-gradient-to-r');
+    formSections.forEach((section, index) => {
+        if (section) {
             section.style.opacity = '0';
             section.style.transform = 'translateY(20px)';
             setTimeout(() => {
@@ -258,33 +235,33 @@
                 section.style.opacity = '1';
                 section.style.transform = 'translateY(0)';
             }, index * 200);
-        });
-    });
-
-    // Função para deletar imagem
-    function deleteImage(button) {
-        if (confirm('Tem certeza que deseja excluir esta imagem?')) {
-            const imageId = button.getAttribute('data-image-id');
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '{{ route("backoffice.admin.photos.images.delete", "") }}/' + imageId;
-
-            const csrfToken = document.createElement('input');
-            csrfToken.type = 'hidden';
-            csrfToken.name = '_token';
-            csrfToken.value = '{{ csrf_token() }}';
-
-            const methodField = document.createElement('input');
-            methodField.type = 'hidden';
-            methodField.name = '_method';
-            methodField.value = 'DELETE';
-
-            form.appendChild(csrfToken);
-            form.appendChild(methodField);
-            document.body.appendChild(form);
-            form.submit();
         }
+    });
+});
+
+// Função para deletar imagem
+function deleteImage(button) {
+    if (confirm('Tem certeza que deseja excluir esta imagem?')) {
+        const imageId = button.getAttribute('data-image-id');
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("backoffice.admin.photos.images.delete", "") }}/' + imageId;
+
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}';
+
+        const methodField = document.createElement('input');
+        methodField.type = 'hidden';
+        methodField.name = '_method';
+        methodField.value = 'DELETE';
+
+        form.appendChild(csrfToken);
+        form.appendChild(methodField);
+        document.body.appendChild(form);
+        form.submit();
     }
+}
 </script>
-@endpush
 @endsection
