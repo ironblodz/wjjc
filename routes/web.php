@@ -6,6 +6,9 @@ use App\Http\Controllers\PagesController;
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PhotoController;
+use App\Http\Controllers\Admin\LogController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CommandController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -60,9 +63,9 @@ Route::get('/lang/{locale}', function ($locale) {
     return back();
 })->name('change.language');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -70,13 +73,28 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::prefix('backoffice/admin')->name('backoffice.admin.')->group(function () {
+        // Dashboard
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/stats', [DashboardController::class, 'getStats'])->name('stats');
+
         // Rotas para Photos
         Route::resource('photos', PhotoController::class);
         // Rotas para Categories
         Route::resource('categories', CategoryController::class);
         // Rota para deletar imagens
-        Route::delete('photos/images/{imageId}', [App\Http\Controllers\Admin\PhotoController::class, 'deleteImage'])
+        Route::delete('photos/images/{imageId}', [PhotoController::class, 'deleteImage'])
             ->name('photos.images.delete');
+
+        // Rotas para Logs
+        Route::get('logs', [LogController::class, 'index'])->name('logs.index');
+        Route::get('logs/download/{filename}', [LogController::class, 'download'])->name('logs.download');
+        Route::post('logs/clear/{filename}', [LogController::class, 'clear'])->name('logs.clear');
+
+        // Rotas para Comandos
+        Route::get('commands', [CommandController::class, 'index'])->name('commands.index');
+        Route::post('commands/execute', [CommandController::class, 'execute'])->middleware('command.execution')->name('commands.execute');
+        Route::get('commands/help/{command}', [CommandController::class, 'help'])->name('commands.help');
+        Route::post('commands/clear-history', [CommandController::class, 'clearHistory'])->middleware('command.execution')->name('commands.clear-history');
     });
 });
 require __DIR__ . '/auth.php';

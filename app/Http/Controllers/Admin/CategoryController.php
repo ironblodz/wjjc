@@ -32,18 +32,24 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
+            'slug' => ['required', 'string', 'max:255', 'unique:categories,slug', 'regex:/^[a-z0-9-]+$/'],
+        ], [
+            'name.required' => 'O nome da categoria é obrigatório.',
+            'name.unique' => 'Já existe uma categoria com esse nome.',
+            'slug.required' => 'O slug é obrigatório.',
+            'slug.unique' => 'Já existe uma categoria com esse slug.',
+            'slug.regex' => 'O slug deve conter apenas letras minúsculas, números e hífens.',
         ]);
 
         Category::create([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => $request->slug,
             'description' => $request->description,
         ]);
 
         return redirect()->route('backoffice.admin.categories.index')
-            ->with('success', 'Category created successfully.');
+            ->with('success', 'Categoria criada com sucesso!');
     }
 
     /**
@@ -67,21 +73,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'name' => ['required', 'string', 'max:255', 'unique:categories,name,' . $category->id],
+            'slug' => ['required', 'string', 'max:255', 'unique:categories,slug,' . $category->id, 'regex:/^[a-z0-9-]+$/'],
+        ], [
+            'name.required' => 'O nome da categoria é obrigatório.',
+            'name.unique' => 'Já existe uma categoria com esse nome.',
+            'slug.required' => 'O slug é obrigatório.',
+            'slug.unique' => 'Já existe uma categoria com esse slug.',
+            'slug.regex' => 'O slug deve conter apenas letras minúsculas, números e hífens.',
         ]);
 
         $category->update([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => $request->slug,
             'description' => $request->description,
         ]);
 
-
         return redirect()->route('backoffice.admin.categories.index')
-            ->with('success', 'Category updated successfully.');
+            ->with('success', 'Categoria atualizada com sucesso!');
     }
 
     /**
