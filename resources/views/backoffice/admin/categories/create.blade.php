@@ -44,9 +44,9 @@
                            name="name"
                            id="name"
                            value="{{ old('name') }}"
-                           class="w-full px-6 py-4 text-lg border-2 @if($errors->has('name')) border-red-500 @else border-gray-300 @endif rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 shadow-sm"
+                           class="w-full px-6 py-4 text-lg border-2 {{ $errors->has('name') ? 'border-red-500' : 'border-gray-300' }} rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 shadow-sm"
                            placeholder="Ex: Casamentos, Aniversários, Corporativo..."
-                           required aria-invalid="@if($errors->has('name'))true@endif" aria-describedby="name-error"
+                           required aria-invalid="{{ $errors->has('name') ? 'true' : 'false' }}" aria-describedby="name-error"
                            autofocus>
                     @if($errors->has('name'))
                         <p class="mt-3 text-sm text-red-600 flex items-center" id="name-error">
@@ -66,9 +66,9 @@
                            name="slug"
                            id="slug"
                            value="{{ old('slug') }}"
-                           class="w-full px-6 py-4 text-lg border-2 @if($errors->has('slug')) border-red-500 @else border-gray-300 @endif rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-300 shadow-sm"
+                           class="w-full px-6 py-4 text-lg border-2 {{ $errors->has('slug') ? 'border-red-500' : 'border-gray-300' }} rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-300 shadow-sm"
                            placeholder="Ex: casamentos, aniversarios, corporativo..."
-                           required aria-invalid="@if($errors->has('slug'))true@endif" aria-describedby="slug-error">
+                           required aria-invalid="{{ $errors->has('slug') ? 'true' : 'false' }}" aria-describedby="slug-error">
                     <p class="mt-3 text-sm text-gray-600 flex items-center">
                         <i class="fas fa-info-circle mr-2 text-blue-500"></i>
                         O slug será usado na URL. Use apenas letras minúsculas, números e hífens.
