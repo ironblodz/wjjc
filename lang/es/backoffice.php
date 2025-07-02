@@ -72,4 +72,46 @@ return [
             'actions' => 'Acciones',
         ],
     ],
-]; 
+    'partnerships' => [
+        'title' => 'Alianzas',
+        'add_new' => 'Añadir Nueva Alianza',
+        'edit' => 'Editar Alianza',
+        'create' => 'Crear Alianza',
+        'delete' => 'Eliminar',
+        'cancel' => 'Cancelar',
+        'update' => 'Actualizar Alianza',
+        'success' => [
+            'created' => 'Alianza creada con éxito.',
+            'updated' => 'Alianza actualizada con éxito.',
+            'deleted' => 'Alianza eliminada con éxito.',
+        ],
+        'error' => [
+            'delete_confirm' => '¿Estás seguro de que quieres eliminar esta alianza?',
+        ],
+        'fields' => [
+            'name' => 'Nombre',
+            'description' => 'Descripción',
+            'website_url' => 'URL del Sitio Web',
+            'logo' => 'Logo',
+            'type' => 'Tipo',
+            'is_active' => 'Activo',
+            'order' => 'Orden',
+        ],
+        'table' => [
+            'id' => 'ID',
+            'name' => 'Nombre',
+            'description' => 'Descripción',
+            'website' => 'Sitio Web',
+            'logo' => 'Logo',
+            'type' => 'Tipo',
+            'status' => 'Estado',
+            'order' => 'Orden',
+            'actions' => 'Acciones',
+        ],
+        'types' => [
+            'sponsor' => 'Patrocinador',
+            'partner' => 'Socio',
+            'media' => 'Medios',
+        ],
+    ],
+];

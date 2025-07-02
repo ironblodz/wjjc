@@ -22,49 +22,59 @@
         </nav>
     </div>
 
-    <section class="training-section training-section--style training-details-section ptb-30">
-        <div class="container">
-            <div class="row justify-content-center mb-10-none" data-aos="fade-up" data-aos-duration="1200">
-                <div class="col-xl-12 text-center">
-                    <div class="training-item">
-                        <div class="training-content">
-                            <h3>
-                                <a href="https://nerdycorexp.com" target="_blank" class="animated-link">Nerdy Core XP</a>
-                            </h3>
-                            <span style="font-size: 0.9em; display: block; color: #888;">Agência / Produtora de Eventos</span>
-                            <p><a href="https://nerdycorexp.com" target="_blank"><i class="fas fa-globe"></i> Visite o nosso website</a></p>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="training-thumb mt-5">
-                        <img loading="lazy" src="{{ asset('assets/images/flags/ncxp2025.png') }}" alt="Nerdy Core XP Logo"
-                            class="img-fluid" style="max-width: 300px;">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    @php
+        $partnerships = \App\Models\Partnership::active()->ordered()->get();
+    @endphp
 
-    <section class="training-section training-section--style training-details-section ptb-120">
-        <div class="container">
-            <div class="row justify-content-center mb-10-none" data-aos="fade-up" data-aos-duration="1200">
-                <div class="col-xl-12 text-center">
-                    <div class="training-item">
-                        <div class="training-content">
-                            <h3>
-                                <a href="https://www.konseptus.eu" target="_blank" class="animated-link">Konseptus Informática</a>
-                            </h3>
-                            <p><a href="https://www.konseptus.eu" target="_blank"><i class="fas fa-globe"></i> Visite o nosso website</a></p>
+    @forelse($partnerships as $partnership)
+        <section class="training-section training-section--style training-details-section {{ $loop->first ? 'ptb-30' : 'ptb-120' }}">
+            <div class="container">
+                <div class="row justify-content-center mb-10-none" data-aos="fade-up" data-aos-duration="1200">
+                    <div class="col-xl-12 text-center">
+                        <div class="training-item">
+                            <div class="training-content">
+                                <h3>
+                                    @if($partnership->website_url)
+                                        <a href="{{ $partnership->website_url }}" target="_blank" class="animated-link">{{ $partnership->name }}</a>
+                                    @else
+                                        {{ $partnership->name }}
+                                    @endif
+                                </h3>
+                                @if($partnership->description)
+                                    <span style="font-size: 0.9em; display: block; color: #888;">{{ $partnership->description }}</span>
+                                @endif
+                                @if($partnership->website_url)
+                                    <p><a href="{{ $partnership->website_url }}" target="_blank"><i class="fas fa-globe"></i> Visite o nosso website</a></p>
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                    <br>
-                    <div class="training-thumb">
-                        <img loading="lazy" src="{{ asset('assets/images/flags/konseptusblacks.png') }}" alt="Konseptus Informática Logo"
-                            class="img-fluid" style="max-width: 300px;">
+                        <br>
+                        @if($partnership->logo_path)
+                            <div class="training-thumb {{ $loop->first ? 'mt-5' : '' }}">
+                                <img loading="lazy" src="{{ asset('storage/' . $partnership->logo_path) }}"
+                                     alt="{{ $partnership->name }} Logo"
+                                     class="img-fluid" style="max-width: 300px;">
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @empty
+        <section class="training-section training-section--style training-details-section ptb-120">
+            <div class="container">
+                <div class="row justify-content-center mb-10-none" data-aos="fade-up" data-aos-duration="1200">
+                    <div class="col-xl-12 text-center">
+                        <div class="training-item">
+                            <div class="training-content">
+                                <h3>Nenhuma parceria disponível</h3>
+                                <p>Em breve teremos novidades sobre nossas parcerias.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endforelse
 
 @endsection

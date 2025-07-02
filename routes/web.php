@@ -101,6 +101,9 @@ Route::middleware('auth')->group(function () {
 
         // Rotas para News
         Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
+
+        // Rotas para Partnerships
+        Route::resource('partnerships', \App\Http\Controllers\Admin\PartnershipController::class);
     });
 });
 require __DIR__ . '/auth.php';

@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // ... other seeders
             CategorySeeder::class,
+            PartnershipSeeder::class,
         ]);
     }
 }

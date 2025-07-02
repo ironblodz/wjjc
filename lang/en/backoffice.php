@@ -72,4 +72,46 @@ return [
             'actions' => 'Actions',
         ],
     ],
-]; 
+    'partnerships' => [
+        'title' => 'Partnerships',
+        'add_new' => 'Add New Partnership',
+        'edit' => 'Edit Partnership',
+        'create' => 'Create Partnership',
+        'delete' => 'Delete',
+        'cancel' => 'Cancel',
+        'update' => 'Update Partnership',
+        'success' => [
+            'created' => 'Partnership created successfully.',
+            'updated' => 'Partnership updated successfully.',
+            'deleted' => 'Partnership deleted successfully.',
+        ],
+        'error' => [
+            'delete_confirm' => 'Are you sure you want to delete this partnership?',
+        ],
+        'fields' => [
+            'name' => 'Name',
+            'description' => 'Description',
+            'website_url' => 'Website URL',
+            'logo' => 'Logo',
+            'type' => 'Type',
+            'is_active' => 'Active',
+            'order' => 'Order',
+        ],
+        'table' => [
+            'id' => 'ID',
+            'name' => 'Name',
+            'description' => 'Description',
+            'website' => 'Website',
+            'logo' => 'Logo',
+            'type' => 'Type',
+            'status' => 'Status',
+            'order' => 'Order',
+            'actions' => 'Actions',
+        ],
+        'types' => [
+            'sponsor' => 'Sponsor',
+            'partner' => 'Partner',
+            'media' => 'Media',
+        ],
+    ],
+];

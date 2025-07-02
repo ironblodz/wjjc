@@ -195,6 +195,9 @@
                 <a href="{{ route('backoffice.admin.news.index') }}" class="navbar-link {{ request()->routeIs('backoffice.admin.news.*') ? 'active' : '' }}">
                     <i class="fas fa-newspaper"></i> Notícias
                 </a>
+                <a href="{{ route('backoffice.admin.partnerships.index') }}" class="navbar-link {{ request()->routeIs('backoffice.admin.partnerships.*') ? 'active' : '' }}">
+                    <i class="fas fa-handshake"></i> Parcerias
+                </a>
                 <a href="{{ route('profile.edit') }}" class="navbar-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
                     <i class="fas fa-user-cog"></i> Perfil
                 </a>
@@ -233,6 +236,9 @@
             </a>
             <a href="{{ route('backoffice.admin.news.index') }}" class="block px-6 py-4 navbar-link {{ request()->routeIs('backoffice.admin.news.*') ? 'active' : '' }}">
                 <i class="fas fa-newspaper"></i> Notícias
+            </a>
+            <a href="{{ route('backoffice.admin.partnerships.index') }}" class="block px-6 py-4 navbar-link {{ request()->routeIs('backoffice.admin.partnerships.*') ? 'active' : '' }}">
+                <i class="fas fa-handshake"></i> Parcerias
             </a>
             <a href="{{ route('profile.edit') }}" class="block px-6 py-4 navbar-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
                 <i class="fas fa-user-cog"></i> Perfil
