@@ -237,9 +237,19 @@
                                     @else
                                         <img loading="lazy" src="{{ asset('assets/images/blog/default.jpg') }}" alt="blog">
                                     @endif
-                                    @if($item->date)
+                                    @php
+                                        $start = $item->start_date ? \Illuminate\Support\Carbon::parse($item->start_date) : null;
+                                        $end = $item->end_date ? \Illuminate\Support\Carbon::parse($item->end_date) : null;
+                                    @endphp
+                                    @if($start)
                                         <div class="blog-date">
-                                            <span>{{ \Carbon\Carbon::parse($item->date)->format('d/m/Y') }}</span>
+                                            <span>
+                                                @if($end && $end->isSameMonth($start) && $end->isSameYear($start) && !$end->equalTo($start))
+                                                    {{ __(ucfirst($start->translatedFormat('F'))) }} {{ $start->format('d') }}-{{ $end->format('d') }} {{ $start->format('Y') }}
+                                                @else
+                                                    {{ __(ucfirst($start->translatedFormat('F'))) }} {{ $start->format('d') }} {{ $start->format('Y') }}
+                                                @endif
+                                            </span>
                                         </div>
                                     @endif
                                 </div>
