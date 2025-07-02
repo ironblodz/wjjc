@@ -69,7 +69,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-30">
                     <div class="training-item" data-aos="zoom-in" data-aos-duration="1200">
                         <div class="training-thumb">
-                            <img loading="lazy" src="{{ asset('assets/images/logoptpts.jpg') }}" alt="training">
+                            <img loading="lazy" src="{{ asset('assets/images/logos.jpeg') }}" alt="training">
                         </div>
                         <div class="training-content">
                            <div>
