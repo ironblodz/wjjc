@@ -138,70 +138,24 @@
                     <div class="col-xl-12">
                         <div class="service-slider">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="service-item">
-                                        <div class="service-thumb">
-                                            <img loading="lazy" src="{{ asset('assets/images/gallery12.jpg') }}"
-                                                alt="service">
-                                            <div class="service-overlay">
-                                                <div class="service-overlay-content">
-                                                    <h3 class="title"><a href="{{ route('founder.show') }}">Shodai Soke
-                                                            Adriano
-                                                            Busà</a>
-                                                    </h3>
+                                @foreach($carouselSlides as $slide)
+                                    <div class="swiper-slide">
+                                        <div class="service-item">
+                                            <div class="service-thumb">
+                                                <a href="{{ url($slide->link) }}">
+                                                    <img loading="lazy" src="{{ asset('storage/' . $slide->image) }}" alt="{{ $slide->title }}">
+                                                </a>
+                                                <div class="service-overlay">
+                                                    <div class="service-overlay-content">
+                                                        <h3 class="title">
+                                                            <a href="{{ url($slide->link) }}">{{ $slide->title }}</a>
+                                                        </h3>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="service-item">
-                                        <div class="service-thumb">
-                                            <img loading="lazy" src="{{ asset('assets/images/jutsu.jpg') }}"
-                                                alt="service">
-                                            <div class="service-overlay">
-                                                <div class="service-overlay-content">
-                                                    <h3 class="title"><a href="{{ route('founder.show') }}">Shodai Soke
-                                                            Adriano
-                                                            Busà</a>
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="service-item">
-                                        <div class="service-thumb">
-                                            <img loading="lazy" src="{{ asset('assets/images/pedropedro.jpg') }}"
-                                                style="height: 463px" alt="service">
-                                            <div class="service-overlay">
-                                                <div class="service-overlay-content">
-                                                    <h3 class="title"><a href="{{ route('dtn.show') }}">Sensei Pedro
-                                                            Nuno
-                                                            Pimentel</a>
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="service-item">
-                                        <div class="service-thumb">
-                                            <img loading="lazy" src="{{ asset('assets/images/ss.jpg') }}"
-                                                alt="service">
-                                            <div class="service-overlay">
-                                                <div class="service-overlay-content">
-                                                    <h3 class="title"><a href="{{ route('dtn.show') }}">Sensei Pedro
-                                                            Nuno
-                                                            Pimentel</a>
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>

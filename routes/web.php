@@ -17,7 +17,8 @@ use App\Models\News;
 
 Route::get('/', function () {
     $news = News::orderBy('start_date', 'desc')->take(3)->get();
-    return view('layouts.index', compact('news'));
+    $carouselSlides = \App\Models\CarouselSlide::where('active', true)->orderBy('order')->get();
+    return view('layouts.index', compact('news', 'carouselSlides'));
 })->name('index');
 
 Route::get('/home', function () {
@@ -104,6 +105,9 @@ Route::middleware('auth')->group(function () {
 
         // Rotas para Partnerships
         Route::resource('partnerships', \App\Http\Controllers\Admin\PartnershipController::class);
+
+        // Rotas para Carousel Slides
+        Route::resource('carousel-slides', \App\Http\Controllers\Admin\CarouselSlideController::class);
     });
 });
 require __DIR__ . '/auth.php';
