@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::table('news', function (Blueprint $table) {
             $table->dropColumn('date');
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
         });
     }
 
@@ -25,8 +23,6 @@ return new class extends Migration
     {
         Schema::table('news', function (Blueprint $table) {
             $table->date('date')->nullable();
-            $table->dropColumn('start_date');
-            $table->dropColumn('end_date');
         });
     }
 };
