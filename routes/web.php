@@ -13,13 +13,16 @@ use App\Http\Controllers\Admin\CommandController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProfileController;
+use App\Models\News;
 
 Route::get('/', function () {
-    return view('layouts.index');
+    $news = News::orderBy('start_date', 'desc')->take(3)->get();
+    return view('layouts.index', compact('news'));
 })->name('index');
 
 Route::get('/home', function () {
-    return view('layouts.index');
+    $news = News::orderBy('start_date', 'desc')->take(3)->get();
+    return view('layouts.index', compact('news'));
 })->name('home');
 
 Route::get('/contact', [PagesController::class, 'showForm'])->name('contact.show');
@@ -95,6 +98,9 @@ Route::middleware('auth')->group(function () {
         Route::post('commands/execute', [CommandController::class, 'execute'])->middleware('command.execution')->name('commands.execute');
         Route::get('commands/help/{command}', [CommandController::class, 'help'])->name('commands.help');
         Route::post('commands/clear-history', [CommandController::class, 'clearHistory'])->middleware('command.execution')->name('commands.clear-history');
+
+        // Rotas para News
+        Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
     });
 });
 require __DIR__ . '/auth.php';

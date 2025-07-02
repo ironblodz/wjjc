@@ -228,65 +228,32 @@
             </div>
             <div class="blog-area">
                 <div class="row justify-content-center mb-30-none">
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-30">
-                        <div class="blog-item" data-aos="zoom-in" data-aos-duration="1200">
-                            <div class="blog-thumb">
-                                <img loading="lazy" src="{{ asset('assets/images/blog/new1.jpg') }}" alt="blog">
-                                {{-- <div class="blog-date">
-                                    <span>24-25, 2024</span>
-                                </div> --}}
-                            </div>
-                            <div class="blog-content">
-                                <div class="blog-post-meta">
-                                    <span class="user">BY: WJJC PORTUGAL</span>
-                                    <span class="category"><a href="#">JU-JITSU</a></span>
+                    @foreach($news as $item)
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-30">
+                            <div class="blog-item" data-aos="zoom-in" data-aos-duration="1200">
+                                <div class="blog-thumb">
+                                    @if($item->image)
+                                        <img loading="lazy" src="{{ asset('storage/' . $item->image) }}" alt="blog">
+                                    @else
+                                        <img loading="lazy" src="{{ asset('assets/images/blog/default.jpg') }}" alt="blog">
+                                    @endif
+                                    @if($item->date)
+                                        <div class="blog-date">
+                                            <span>{{ \Carbon\Carbon::parse($item->date)->format('d/m/Y') }}</span>
+                                        </div>
+                                    @endif
                                 </div>
-                                <h3 class="title"><a href="#">{{ __('messages.index.welcome') }}</a></h3>
-                                <p>
-                                    {{ __('messages.index.worldjujitsu') }}
-                                </p>
+                                <div class="blog-content">
+                                    <div class="blog-post-meta">
+                                        <span class="user">BY: WJJC PORTUGAL</span>
+                                        <span class="category"><a href="#">JU-JITSU</a></span>
+                                    </div>
+                                    <h3 class="title">{{ $item->title }}</h3>
+                                    <p>{!! $item->excerpt ?? $item->body !!}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-30">
-                        <div class="blog-item" data-aos="zoom-in" data-aos-duration="1200">
-                            <div class="blog-thumb">
-                                <img loading="lazy" src="{{ asset('assets/images/blog/new2.jpg') }}" alt="blog">
-                                <div class="blog-date">
-                                    <span>{{ __('messages.index.may') }} 16-23, 2024</span>
-                                </div>
-                            </div>
-                            <div class="blog-content">
-                                <div class="blog-post-meta">
-                                    <span class="user">BY: WJJC PORTUGAL</span>
-                                    <span class="category"><a href="#">JU-JITSU</a></span>
-                                </div>
-                                <h3 class="title"><a href="#">{{ __('messages.index.seminary') }}</a>
-                                </h3>
-                                <p>{{ __('messages.index.exclusive') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-30">
-                        <div class="blog-item" data-aos="zoom-in" data-aos-duration="1200">
-                            <div class="blog-thumb">
-                                <img loading="lazy" src="{{ asset('assets/images/blog/new3.jpg') }}" alt="blog">
-                                <div class="blog-date">
-                                    <span>{{ __('messages.index.Julho') }} 25-26, 2024</span>
-                                </div>
-                            </div>
-                            <div class="blog-content">
-                                <div class="blog-post-meta">
-                                    <span class="user">BY: WJJC PORTUGAL</span>
-                                    <span class="category"><a href="#">JU-JITSU</a></span>
-                                </div>
-                                <h3 class="title"><a
-                                        href="{{ route('event.show') }}">{{ __('messages.index.masterclass') }}</a>
-                                </h3>
-                                <p>{{ __('messages.index.blackbelts') }}</p>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
