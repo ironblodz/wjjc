@@ -34,6 +34,7 @@ class NewsController extends Controller
             $data['image'] = $request->file('image')->store('news', 'public');
         }
 
+        $data['featured'] = $request->has('featured');
         News::create($data);
         return redirect()->route('backoffice.admin.news.index')->with('success', 'Notícia criada com sucesso!');
     }
@@ -58,6 +59,7 @@ class NewsController extends Controller
             $data['image'] = $request->file('image')->store('news', 'public');
         }
 
+        $data['featured'] = $request->has('featured');
         $news->update($data);
         return redirect()->route('backoffice.admin.news.index')->with('success', 'Notícia atualizada com sucesso!');
     }

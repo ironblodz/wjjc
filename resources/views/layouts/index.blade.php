@@ -219,6 +219,13 @@
                         </div>
                     @endforeach
                 </div>
+                <div class="row justify-content-center mt-4">
+                    <div class="col-auto">
+                        <a href="{{ route('news.index') }}" class="btn btn--base btn-lg px-5 py-3">
+                            Ver todas as notícias <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

@@ -16,9 +16,18 @@ use App\Http\Controllers\ProfileController;
 use App\Models\News;
 
 Route::get('/', function () {
-    $news = News::orderBy('start_date', 'desc')->take(3)->get();
+    $featured = News::where('featured', true)->orderBy('start_date', 'desc')->take(3)->get();
+    $remaining = 3 - $featured->count();
+    $news = $featured->all();
+    if ($remaining > 0) {
+        $others = News::where('featured', false)
+            ->orderBy('start_date', 'desc')
+            ->take($remaining)
+            ->get();
+        $news = array_merge($news, $others->all());
+    }
     $carouselSlides = \App\Models\CarouselSlide::where('active', true)->orderBy('order')->get();
-    return view('layouts.index', compact('news', 'carouselSlides'));
+    return view('layouts.index', ['news' => $news, 'carouselSlides' => $carouselSlides]);
 })->name('index');
 
 Route::get('/home', function () {
@@ -58,6 +67,7 @@ Route::get('/certification', [PagesController::class, 'showCertification'])->nam
 
 Route::get('/logo', [PagesController::class, 'showLogo'])->name('logo.show');
 
+Route::get('/news', [\App\Http\Controllers\NewsController::class, 'index'])->name('news.index');
 
 Route::get('/lang/{locale}', function ($locale) {
     // Salve o idioma escolhido na sessão

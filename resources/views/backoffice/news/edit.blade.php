@@ -102,6 +102,14 @@
                        class="w-full px-6 py-4 text-lg border-2 {{ $errors->has('image') ? 'border-red-500' : 'border-gray-300' }} rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-300 shadow-sm">
                 @error('image')<p class="mt-3 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
             </div>
+            <!-- Destacar -->
+            <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-2xl p-6 border border-red-100 flex items-center">
+                <input type="checkbox" name="featured" id="featured" class="form-check-input mr-3" value="1" {{ $news->featured ? 'checked' : '' }}>
+                <label for="featured" class="text-lg font-semibold text-gray-900">
+                    <i class="fas fa-star mr-2 text-yellow-500"></i>
+                    Destacar notícia (aparece em destaque na página principal)
+                </label>
+            </div>
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row items-center justify-end space-y-4 sm:space-y-0 sm:space-x-6 pt-8 border-t border-gray-200">
                 <a href="{{ route('backoffice.admin.news.index') }}"
